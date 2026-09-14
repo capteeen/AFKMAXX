@@ -12,7 +12,7 @@ export default function SpecimensPage() {
         </div>
         <p><a className="text-link" href="/specimens/system.html">system.html ↗</a></p>
         <p><a className="text-link" href="/specimens/desktop.html">desktop demo ↗</a></p>
-        <p><a className="text-link" href="/specimens/mobile.html">mobile demo ↗</a></p>
+        <p><a className="text-link" href="/specimens/dashboard">dashboard ↗</a></p>
       </main>
     </>
   );

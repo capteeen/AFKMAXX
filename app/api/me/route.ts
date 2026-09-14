@@ -5,13 +5,13 @@ import { requireUser, rateLimit, clientKey } from '@/lib/guard';
 export async function GET() {
   const { error, user } = await requireUser();
   if (error) return error;
-  const [destinations, results, jobs, ledger] = await Promise.all([
+  const [destinations, results, jobs, ledger, entries] = await Promise.all([
     prisma.destination.findMany({ where: { ownerUserId: user.id }, orderBy: { createdAt: 'desc' } }),
     prisma.checkResult.findMany({
       where: { participantId: user.id },
       include: { job: { include: { destination: true } } },
       orderBy: { fetchedAt: 'desc' },
-      take: 40
+      take: 200
     }),
     prisma.job.findMany({
       where: { createdById: user.id },
@@ -19,7 +19,8 @@ export async function GET() {
       orderBy: { createdAt: 'desc' },
       take: 40
     }),
-    prisma.ledgerEntry.aggregate({ where: { userId: user.id }, _sum: { delta: true } })
+    prisma.ledgerEntry.aggregate({ where: { userId: user.id }, _sum: { delta: true } }),
+    prisma.ledgerEntry.findMany({ where: { userId: user.id }, orderBy: { createdAt: 'desc' }, take: 80 })
   ]);
   const since = new Date();
   since.setUTCHours(0, 0, 0, 0);
@@ -34,11 +35,13 @@ export async function GET() {
       role: user.role,
       status: user.status,
       dailyCapMb: user.dailyCapMb,
-      consentAt: user.consentAt
+      consentAt: user.consentAt,
+      createdAt: user.createdAt
     },
     destinations,
     results,
     jobs,
+    entries,
     bag: ledger._sum.delta || 0,
     usedBytes: used._sum.bytes || 0
   });
