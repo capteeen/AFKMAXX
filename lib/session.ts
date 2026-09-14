@@ -20,26 +20,31 @@ export async function getCurrentUser() {
   }
   if (!user?.email) return null;
   const email = user.email.toLowerCase();
-  const existing = await prisma.user.findFirst({
-    where: { OR: [{ supabaseId: user.id }, { email }] }
-  });
-  if (existing) {
-    return prisma.user.update({
-      where: { id: existing.id },
+  try {
+    const existing = await prisma.user.findFirst({
+      where: { OR: [{ supabaseId: user.id }, { email }] }
+    });
+    if (existing) {
+      return prisma.user.update({
+        where: { id: existing.id },
+        data: {
+          supabaseId: user.id,
+          email,
+          emailVerified: user.email_confirmed_at ? new Date(user.email_confirmed_at) : existing.emailVerified,
+          ...(adminEmail && email === adminEmail ? { role: 'admin' } : {})
+        }
+      });
+    }
+    return prisma.user.create({
       data: {
         supabaseId: user.id,
         email,
-        emailVerified: user.email_confirmed_at ? new Date(user.email_confirmed_at) : existing.emailVerified,
-        ...(adminEmail && email === adminEmail ? { role: 'admin' } : {})
+        emailVerified: user.email_confirmed_at ? new Date(user.email_confirmed_at) : null,
+        role: adminEmail && email === adminEmail ? 'admin' : 'participant'
       }
     });
+  } catch (error) {
+    console.error('getCurrentUser prisma', error);
+    return null;
   }
-  return prisma.user.create({
-    data: {
-      supabaseId: user.id,
-      email,
-      emailVerified: user.email_confirmed_at ? new Date(user.email_confirmed_at) : null,
-      role: adminEmail && email === adminEmail ? 'admin' : 'participant'
-    }
-  });
 }

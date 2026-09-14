@@ -3,7 +3,12 @@ import { getCurrentUser } from '@/lib/session';
 import { signOutUser } from '@/app/login/actions';
 
 export async function SiteHeader({ current }: { current?: 'home' | 'app' | 'admin' | 'login' }) {
-  const user = await getCurrentUser();
+  let user = null;
+  try {
+    user = await getCurrentUser();
+  } catch {
+    user = null;
+  }
   return (
     <header className="nav wrap">
       <Link className="brand" href="/" aria-label="AFKMAXX home">

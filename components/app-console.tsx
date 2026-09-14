@@ -144,7 +144,7 @@ function previewMe(): Me {
 }
 
 export function AppConsole({ preview = false }: { preview?: boolean } = {}) {
-  const [me, setMe] = useState<Me | null>(preview ? previewMe() : null);
+  const [me, setMe] = useState<Me | null>(null);
   const [screen, setScreen] = useState<Screen>('overview');
   const [wallet, setWallet] = useState<'checks' | 'sites'>('checks');
   const [range, setRange] = useState<7 | 30>(30);
@@ -184,16 +184,30 @@ export function AppConsole({ preview = false }: { preview?: boolean } = {}) {
       return;
     }
     const data = await res.json();
-    setMe({ ...data, entries: data.entries || [] });
+    if (!data.user?.id) {
+      setError('Sign in required');
+      return;
+    }
+    setMe({
+      ...data,
+      destinations: data.destinations || [],
+      results: data.results || [],
+      jobs: data.jobs || [],
+      entries: data.entries || [],
+      bag: data.bag || 0,
+      usedBytes: data.usedBytes || 0
+    });
     setConsent(Boolean(data.user.consentAt));
     setCap(data.user.dailyCapMb);
   }
 
   useEffect(() => {
-    setConsent(preview);
-    setCap(100);
     setOrigin(window.location.origin);
     if (preview) {
+      const data = previewMe();
+      setMe(data);
+      setConsent(true);
+      setCap(data.user.dailyCapMb);
       setBanner('Preview desk. Sign in on /app for a live bag.');
       return;
     }
