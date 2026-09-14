@@ -161,11 +161,15 @@ export function AppConsole({ preview = false }: { preview?: boolean } = {}) {
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState('');
   const [origin, setOrigin] = useState('');
+  const [busy, setBusy] = useState(false);
 
   function send(payload: object, wait = 800) {
     return new Promise<Record<string, unknown>>(resolve => {
       const id = Math.random().toString(36).slice(2);
-      const timer = setTimeout(() => resolve({ ok: false }), wait);
+      const timer = setTimeout(() => {
+        window.removeEventListener('message', onMsg);
+        resolve({ ok: false });
+      }, wait);
       const onMsg = (event: MessageEvent) => {
         if (event.source !== window || event.data?.source !== REPLY || event.data?.id !== id) return;
         clearTimeout(timer);
@@ -178,27 +182,26 @@ export function AppConsole({ preview = false }: { preview?: boolean } = {}) {
   }
 
   async function load() {
-    const res = await fetch('/api/me');
-    if (!res.ok) {
-      setError('Sign in required');
-      return;
+    try {
+      const res = await fetch('/api/me');
+      if (!res.ok) throw new Error(res.status === 401 ? 'Sign in required.' : 'Could not load the desk. Refresh to try again.');
+      const data = await res.json();
+      if (!data.user?.id) throw new Error('Sign in required.');
+      setMe({
+        ...data,
+        destinations: data.destinations || [],
+        results: data.results || [],
+        jobs: data.jobs || [],
+        entries: data.entries || [],
+        bag: data.bag || 0,
+        usedBytes: data.usedBytes || 0
+      });
+      setConsent(Boolean(data.user.consentAt));
+      setCap(data.user.dailyCapMb);
+      setError('');
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : 'Could not load the desk.');
     }
-    const data = await res.json();
-    if (!data.user?.id) {
-      setError('Sign in required');
-      return;
-    }
-    setMe({
-      ...data,
-      destinations: data.destinations || [],
-      results: data.results || [],
-      jobs: data.jobs || [],
-      entries: data.entries || [],
-      bag: data.bag || 0,
-      usedBytes: data.usedBytes || 0
-    });
-    setConsent(Boolean(data.user.consentAt));
-    setCap(data.user.dailyCapMb);
   }
 
   useEffect(() => {
@@ -215,7 +218,7 @@ export function AppConsole({ preview = false }: { preview?: boolean } = {}) {
     const onHello = (event: MessageEvent) => {
       if (event.data?.source === REPLY && (event.data.type === 'HELLO' || event.data.type === 'STATE')) {
         setExt(true);
-        if (event.data.state?.running) setRunning(true);
+        if (event.data.state) setRunning(Boolean(event.data.state.running));
       }
     };
     window.addEventListener('message', onHello);
@@ -224,60 +227,78 @@ export function AppConsole({ preview = false }: { preview?: boolean } = {}) {
         setExt(true);
         setBanner('Extension connected.');
         const state = res.state as { running?: boolean } | undefined;
-        if (state?.running) setRunning(true);
+        if (state) setRunning(Boolean(state.running));
       } else setBanner('Extension not found. Open Extension to connect.');
     });
     return () => window.removeEventListener('message', onHello);
   }, []);
 
   async function saveConsent() {
-    if (preview) { setConsent(true); return; }
-    await fetch('/api/consent', { method: 'POST' });
-    setConsent(true);
-    await load();
+    if (preview) { setConsent(true); return true; }
+    try {
+      const res = await fetch('/api/consent', { method: 'POST' });
+      if (!res.ok) throw new Error('Consent was not saved. Try again.');
+      setConsent(true);
+      await load();
+      return true;
+    } catch (cause) {
+      setFeedback(cause instanceof Error ? cause.message : 'Consent was not saved.');
+      return false;
+    }
   }
 
   async function saveCap(value: number) {
+    const previous = cap;
     setCap(value);
     if (preview) return;
-    await fetch('/api/me', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ dailyCapMb: value }) });
+    try {
+      const res = await fetch('/api/me', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ dailyCapMb: value }) });
+      if (!res.ok) throw new Error('Cap was not saved. Try again.');
+      setMe(current => current ? { ...current, user: { ...current.user, dailyCapMb: value } } : current);
+    } catch {
+      setCap(previous);
+      setFeedback('Cap was not saved. Try again.');
+    }
   }
 
   async function issueToken() {
     if (preview) { setTokenNote('Preview only. Sign in to issue a real token.'); return; }
-    const res = await fetch('/api/device-token', { method: 'POST' });
-    const data = await res.json();
-    if (!data.token) {
-      setTokenNote(data.error || 'Could not issue token');
-      return;
+    try {
+      const res = await fetch('/api/device-token', { method: 'POST' });
+      const data = await res.json();
+      if (!res.ok || !data.token) throw new Error(data.error || 'Could not issue token.');
+      const reply = await send({ type: 'CONFIG', apiBase: window.location.origin, deviceToken: data.token, capMB: cap }, 2000);
+      setTokenNote(reply.ok ? 'Token issued and sent to the extension. It is not shown again.' : 'Token issued, but the extension did not confirm receipt. Connect it and issue a new token.');
+    } catch (cause) {
+      setTokenNote(cause instanceof Error ? cause.message : 'Could not issue token.');
     }
-    setTokenNote('Token issued and sent to the extension. It is not shown again.');
-    await send({ type: 'CONFIG', apiBase: window.location.origin, deviceToken: data.token, capMB: cap }, 2000);
   }
 
   async function toggle() {
     if (preview) { setRunning(r => !r); return; }
-    if (running) {
-      await send({ type: 'PAUSE' }, 2000);
-      setRunning(false);
-      return;
-    }
-    if (!consent) await saveConsent();
-    await send({ type: 'START', capMB: cap }, 2000);
-    setRunning(true);
+    setBusy(true);
+    try {
+      if (!running && !consent && !(await saveConsent())) return;
+      const reply = await send({ type: running ? 'PAUSE' : 'START', capMB: cap }, 2000);
+      if (!reply.ok) { setFeedback('Extension did not respond. Check the connection and try again.'); return; }
+      setRunning(!running);
+      setFeedback('');
+    } finally { setBusy(false); }
   }
 
   async function createJob(event: React.FormEvent) {
     event.preventDefault();
     if (preview) { setFeedback('Preview only. Sign in to queue a live job.'); return; }
-    const res = await fetch('/api/jobs', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ url, regionLabel: region })
-    });
-    const data = await res.json();
-    setFeedback(data.error || `Queued ${data.job?.destination?.hostname}. Ownership is declared, not proven.`);
-    await load();
+    try {
+      const res = await fetch('/api/jobs', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url, regionLabel: region })
+      });
+      const data = await res.json();
+      setFeedback(data.error || `Queued ${data.job?.destination?.hostname || 'site'}. Ownership is declared, not proven.`);
+      if (res.ok) await load();
+    } catch { setFeedback('Could not queue the check. Try again.'); }
   }
 
   const stats = useMemo(() => {
@@ -390,7 +411,7 @@ export function AppConsole({ preview = false }: { preview?: boolean } = {}) {
         </Link>
         <nav className="dash-nav" aria-label="App">
           {NAV.map(item => (
-            <button key={item.id} type="button" className={screen === item.id ? 'is-active' : ''} onClick={() => setScreen(item.id)}>
+            <button key={item.id} type="button" className={screen === item.id ? 'is-active' : ''} aria-current={screen === item.id ? 'page' : undefined} onClick={() => setScreen(item.id)}>
               {item.label}
             </button>
           ))}
@@ -398,25 +419,26 @@ export function AppConsole({ preview = false }: { preview?: boolean } = {}) {
         <nav className="dash-nav dash-nav-more" aria-label="Controls">
           <span className="micro">THE DESK</span>
           {MORE.map(item => (
-            <button key={item.id} type="button" className={screen === item.id ? 'is-active' : ''} onClick={() => setScreen(item.id)}>
+            <button key={item.id} type="button" className={screen === item.id ? 'is-active' : ''} aria-current={screen === item.id ? 'page' : undefined} onClick={() => setScreen(item.id)}>
               {item.label}
             </button>
           ))}
           {me.user.role === 'admin' ? <Link href="/admin">Admin</Link> : null}
         </nav>
-        <form className="dash-signout" action={signOutUser}>
-          <button className="text-link" type="submit">Sign out ↗</button>
-        </form>
+        {preview ? <div className="dash-signout"><Link className="text-link" href="/login">Sign in ↗</Link></div> : (
+          <form className="dash-signout" action={signOutUser}>
+            <button className="text-link" type="submit">Sign out ↗</button>
+          </form>
+        )}
       </aside>
 
       <div className="dash-main">
         <header className="dash-top">
-          <div className="dash-switch" role="group" aria-label="Wallet">
-            <button type="button" className={wallet === 'checks' ? 'is-on' : ''} onClick={() => setWallet('checks')}>
-              Checks <b>{formatBag(me.bag)}</b>
+          <div className="dash-switch" role="group" aria-label="Desk view">
+            <button type="button" className={wallet === 'checks' ? 'is-on' : ''} aria-pressed={wallet === 'checks'} onClick={() => setWallet('checks')}>
+              Checks <b>{stats.gathering}</b>
             </button>
-            <span className={`dash-toggle ${wallet === 'sites' ? 'is-sites' : ''}`} aria-hidden="true" />
-            <button type="button" className={wallet === 'sites' ? 'is-on' : ''} onClick={() => setWallet('sites')}>
+            <button type="button" className={wallet === 'sites' ? 'is-on' : ''} aria-pressed={wallet === 'sites'} onClick={() => setWallet('sites')}>
               Sites <b>{stats.sites}</b>
             </button>
           </div>
@@ -424,7 +446,7 @@ export function AppConsole({ preview = false }: { preview?: boolean } = {}) {
             <a className="button lime dash-download" href="#install" onClick={event => { event.preventDefault(); setScreen('install'); }}>
               Get extension <span>↘</span>
             </a>
-            <span className={`dash-pill ${running ? 'is-live' : ''}`}>{running ? 'Checking' : 'Paused'}</span>
+            <span className={`dash-pill ${running ? 'is-live' : ''}`} role="status" aria-live="polite">{running ? 'Checking' : 'Paused'}</span>
             <span className="dash-avatar" title={me.user.email}>{initials(me.user.email)}</span>
           </div>
         </header>
@@ -434,29 +456,25 @@ export function AppConsole({ preview = false }: { preview?: boolean } = {}) {
 
           {screen === 'overview' && (
             <div className="dash-grid">
-              <section className="dash-card dash-wallets">
-                <div className={`dash-wallet ${wallet === 'checks' ? 'is-current' : ''}`}>
-                  <span className="micro">CHECKS WALLET</span>
-                  <div className="dash-hive" aria-hidden="true">
-                    {Array.from({ length: 18 }, (_, i) => <i key={i} className={i < Math.min(stats.gathering, 18) ? 'is-lit' : ''} />)}
-                    <AfkCoin size={54} className="dash-hive-coin" />
-                  </div>
-                </div>
-                <div className={`dash-wallet dash-wallet-live ${wallet === 'sites' ? 'is-current' : ''}`}>
-                  <span className="micro">{wallet === 'checks' ? 'PLACEHOLDER BAG' : 'SITES ON FILE'}</span>
-                  <strong>{wallet === 'checks' ? formatBag(bagValue) : pendingValue}</strong>
-                  <span className="dash-unit">{wallet === 'checks' ? '$AFK' : 'queued'}</span>
-                  <p>Not withdrawable. Robinhood Chain is intended, not live. Accepted work may later settle here.</p>
-                  <button className="button lime" type="button" disabled={(!ext && !preview) || me.user.status === 'banned'} aria-pressed={running} onClick={toggle}>
+              <h1 className="sr-only">Overview</h1>
+              <section className="dash-card dash-hero">
+                <div className="dash-hero-content">
+                  <span className="micro">{wallet === 'checks' ? 'YOUR PLACEHOLDER BAG' : 'YOUR SITE JOBS'}</span>
+                  <div className="dash-balance"><strong>{wallet === 'checks' ? formatBag(bagValue) : pendingValue}</strong><span>{wallet === 'checks' ? '$AFK' : 'QUEUED'}</span></div>
+                  <p className="dash-hero-truth">{wallet === 'checks' ? 'Not withdrawable. Robinhood Chain is intended, not live.' : 'Approved HTTPS hosts only. A list. Not a blank check.'}</p>
+                  <div className="dash-hero-status"><span className={`dash-status-dot ${running ? 'is-live' : ''}`} />{running ? 'CHECKS RUNNING' : 'CHECKS PAUSED'} <span className="dash-hero-divider">/</span> {ext || preview ? 'EXTENSION READY' : 'EXTENSION NOT CONNECTED'}</div>
+                  <button className="button lime dash-primary-action" type="button" disabled={busy || (!ext && !preview) || me.user.status === 'banned'} aria-pressed={running} onClick={toggle}>
                     {running ? 'Pause checks' : 'Start checks'} <span>{running ? 'Ⅱ' : '↗'}</span>
                   </button>
+                  <p className="dash-action-note" role="status">{feedback || (ext || preview ? 'Your connection. Your call.' : 'Connect the extension to start checks.')}</p>
                 </div>
+                <div className="dash-hive" aria-hidden="true"><div className="dash-hive-ring ring-outer" /><div className="dash-hive-ring ring-mid" /><div className="dash-hive-ring ring-inner" /><AfkCoin size={72} className="dash-hive-coin" /><span className="dash-hive-axis axis-x" /><span className="dash-hive-axis axis-y" /><span className="dash-hive-tag">AFK / 001</span></div>
               </section>
 
               <aside className="dash-stack">
                 <section className="dash-card dash-pot">
                   <span className="micro">STREAK POT</span>
-                  <h3>Keep the desk warm.</h3>
+                  <h3>{stats.streakDays} day streak.</h3>
                   <p>Hit an approved check {streakLeft} more {streakLeft === 1 ? 'day' : 'days'} in a row. No bonus is paid yet.</p>
                   <div className="dash-pot-meta">
                     <span>7 days</span>
@@ -472,15 +490,12 @@ export function AppConsole({ preview = false }: { preview?: boolean } = {}) {
               <section className="dash-card dash-earn">
                 <div className="dash-earn-head">
                   <div>
-                    <span className="micro">EARNINGS</span>
+                    <span className="micro">30-DAY GATHERING</span>
                     <strong>{overviewTotal} <small>checks / last {range} days</small></strong>
                   </div>
-                  <div className="dash-pills">
-                    <button type="button" className="is-on">by types</button>
-                    <button type="button" onClick={() => setScreen('statistics')}>by wallet</button>
-                  </div>
+                  <button className="dash-text-action" type="button" onClick={() => setScreen('statistics')}>All statistics ↗</button>
                 </div>
-                <DashChart points={stats.gatheringDays} />
+                <DashChart points={stats.gatheringDays} label="Approved checks by day" />
                 <ul className="dash-legend">
                   <li><i className="is-mint" /> Gathering {stats.gatheringDays.reduce((n, p) => n + p.value, 0)}</li>
                   <li><i className="is-blue" /> Accepted {stats.accepted}</li>
@@ -491,13 +506,13 @@ export function AppConsole({ preview = false }: { preview?: boolean } = {}) {
               <aside className="dash-stack">
                 <section className="dash-card dash-boost">
                   <span className="micro">LOYALTY BOOSTER</span>
-                  <h3>Stay opted in. The side quest stays yours.</h3>
+                  <h3>Stay in control.</h3>
                   <p>No percentage boost is live. Limits, pause, and allowlists still are.</p>
                 </section>
                 <section className="dash-card dash-ref">
                   <span className="micro">SHARE THE DESK</span>
                   <label className="dash-copy">
-                    <input readOnly value={referralLink} />
+                    <span className="sr-only">Invite link</span><input readOnly value={referralLink} aria-label="Invite link" />
                     <button type="button" onClick={copyRef}>{copied ? 'Copied' : 'Copy'}</button>
                   </label>
                   <p className="muted">My referrals: 0 · All time · Not tracked yet</p>
@@ -535,7 +550,7 @@ export function AppConsole({ preview = false }: { preview?: boolean } = {}) {
                 {stat === 'loyalty' ? (
                   <div className="dash-meter dash-meter-lg" aria-label="Streak"><i style={{ width: `${(Math.min(stats.streakDays, 7) / 7) * 100}%` }} /></div>
                 ) : (
-                  <DashChart points={chartPoints} accent={stat === 'accepted' ? 'var(--blue)' : 'var(--mint)'} height={220} />
+                  <DashChart points={chartPoints} label={`${STATS.find(item => item.id === stat)?.label} by day`} accent={stat === 'accepted' ? 'var(--blue)' : 'var(--mint)'} height={220} />
                 )}
               </section>
             </>
@@ -548,24 +563,24 @@ export function AppConsole({ preview = false }: { preview?: boolean } = {}) {
               </div>
               <section className="dash-card">
                 <p className="muted">Checks and placeholder ledger rows. Nothing here is a withdrawal.</p>
-                <div className="table-scroll">
+                <div className="table-scroll dash-history-table">
                   <table>
                     <thead><tr><th>When</th><th>What</th><th>Detail</th><th>Review</th></tr></thead>
                     <tbody>
                       {me.results.map(r => (
                         <tr key={r.id}>
-                          <td>{new Date(r.fetchedAt).toLocaleString()}</td>
-                          <td>{r.job.destination.hostname}</td>
-                          <td>{r.statusCode} · {kb(r.bytes)} KB · {r.ms} ms</td>
-                          <td>{r.review}</td>
+                          <td data-label="WHEN">{new Date(r.fetchedAt).toLocaleString()}</td>
+                          <td data-label="HOST">{r.job?.destination?.hostname || 'Approved host'}</td>
+                          <td data-label="CHECK">{r.statusCode} · {kb(r.bytes)} KB · {r.ms} ms</td>
+                          <td data-label="REVIEW">{r.review}</td>
                         </tr>
                       ))}
                       {me.entries.map(e => (
                         <tr key={e.id}>
-                          <td>{new Date(e.createdAt).toLocaleString()}</td>
-                          <td>$AFK ledger</td>
-                          <td>{e.delta} · {e.reason}</td>
-                          <td>placeholder</td>
+                          <td data-label="WHEN">{new Date(e.createdAt).toLocaleString()}</td>
+                          <td data-label="TYPE">$AFK ledger</td>
+                          <td data-label="DELTA">{e.delta} · {e.reason}</td>
+                          <td data-label="STATUS">placeholder</td>
                         </tr>
                       ))}
                     </tbody>
@@ -582,7 +597,7 @@ export function AppConsole({ preview = false }: { preview?: boolean } = {}) {
               <section className="dash-card dash-ref-page">
                 <p>Invite is a link, not a program. We do not credit $AFK for signups.</p>
                 <label className="dash-copy">
-                  <input readOnly value={referralLink} />
+                  <input readOnly value={referralLink} aria-label="Invite link" />
                   <button type="button" onClick={copyRef}>{copied ? 'Copied' : 'Copy'}</button>
                 </label>
                 <dl className="dash-dl">
@@ -626,7 +641,7 @@ export function AppConsole({ preview = false }: { preview?: boolean } = {}) {
                       : running ? 'The extension polls jobs and GETs allowlisted hosts.'
                       : 'Start after consent and an extension token.'}
                   </p>
-                  <button className="button lime" type="button" disabled={(!ext && !preview) || me.user.status === 'banned'} aria-pressed={running} onClick={toggle}>
+                  <button className="button lime" type="button" disabled={busy || (!ext && !preview) || me.user.status === 'banned'} aria-pressed={running} onClick={toggle}>
                     {running ? 'Pause checks' : 'Start checks'} <span>{running ? 'Ⅱ' : '↗'}</span>
                   </button>
                 </div>
@@ -638,6 +653,7 @@ export function AppConsole({ preview = false }: { preview?: boolean } = {}) {
                   <label className="micro">DAILY DATA CAP <output>{cap} MB</output></label>
                   <input type="range" min={25} max={250} step={25} value={cap} onChange={e => saveCap(Number(e.target.value))} />
                   <p className="control-note">Usage today: {usedMb} / {me.user.dailyCapMb} MB. Account status: {me.user.status}.</p>
+                  <p className="feedback" role="status">{feedback}</p>
                 </div>
               </section>
             </>
