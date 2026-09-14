@@ -7,8 +7,8 @@ export default async function AppPage() {
   try {
     user = await getCurrentUser();
   } catch {
-    redirect('/login');
+    redirect('/sign-in');
   }
-  if (!user) redirect('/login');
+  if (!user) redirect('/sign-in');
   return <AppConsole />;
 }

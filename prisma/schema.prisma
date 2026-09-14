@@ -11,6 +11,7 @@ model User {
   id            String    @id @default(cuid())
   email         String    @unique
   supabaseId    String?   @unique
+  clerkId       String?   @unique
   emailVerified DateTime?
   name          String?
   image         String?

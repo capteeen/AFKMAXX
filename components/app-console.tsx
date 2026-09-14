@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
-import { signOutUser } from '@/app/login/actions';
+import { SignOutButton } from '@clerk/nextjs';
 import { AfkCoin } from '@/components/afk-coin';
 import { DashChart } from '@/components/dash-chart';
 
@@ -425,10 +425,12 @@ export function AppConsole({ preview = false }: { preview?: boolean } = {}) {
           ))}
           {me.user.role === 'admin' ? <Link href="/admin">Admin</Link> : null}
         </nav>
-        {preview ? <div className="dash-signout"><Link className="text-link" href="/login">Sign in ↗</Link></div> : (
-          <form className="dash-signout" action={signOutUser}>
-            <button className="text-link" type="submit">Sign out ↗</button>
-          </form>
+        {preview ? <div className="dash-signout"><Link className="text-link" href="/sign-in">Sign in ↗</Link></div> : (
+          <div className="dash-signout">
+            <SignOutButton>
+              <button className="text-link" type="button">Sign out ↗</button>
+            </SignOutButton>
+          </div>
         )}
       </aside>
 

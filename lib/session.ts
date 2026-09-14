@@ -1,45 +1,48 @@
-import { cookies } from 'next/headers';
+import { currentUser } from '@clerk/nextjs/server';
 import { prisma } from '@/lib/prisma';
-import { createServerSupabase } from '@/lib/supabase/server';
-import { supabaseConfigured } from '@/lib/supabase/env';
 
 const adminEmail = (process.env.ADMIN_EMAIL || '').toLowerCase();
 
 export async function getCurrentUser() {
-  if (!supabaseConfigured()) return null;
-  const cookieStore = await cookies();
-  const hasAuthCookie = cookieStore.getAll().some((cookie) => cookie.name.includes('-auth-token'));
-  if (!hasAuthCookie) return null;
-  let user: { id: string; email?: string | null; email_confirmed_at?: string | null } | null = null;
+  let clerkUser;
   try {
-    const supabase = await createServerSupabase();
-    const { data } = await supabase.auth.getUser();
-    user = data.user;
+    clerkUser = await currentUser();
   } catch {
     return null;
   }
-  if (!user?.email) return null;
-  const email = user.email.toLowerCase();
+  if (!clerkUser) return null;
+  const email = (
+    clerkUser.primaryEmailAddress?.emailAddress ||
+    clerkUser.emailAddresses[0]?.emailAddress ||
+    ''
+  ).toLowerCase();
+  if (!email) return null;
+  const verified = clerkUser.primaryEmailAddress?.verification?.status === 'verified' ? new Date() : null;
+  const name = [clerkUser.firstName, clerkUser.lastName].filter(Boolean).join(' ') || clerkUser.username || null;
   try {
     const existing = await prisma.user.findFirst({
-      where: { OR: [{ supabaseId: user.id }, { email }] }
+      where: { OR: [{ clerkId: clerkUser.id }, { email }] }
     });
     if (existing) {
       return prisma.user.update({
         where: { id: existing.id },
         data: {
-          supabaseId: user.id,
+          clerkId: clerkUser.id,
           email,
-          emailVerified: user.email_confirmed_at ? new Date(user.email_confirmed_at) : existing.emailVerified,
+          name: name || existing.name,
+          image: clerkUser.imageUrl || existing.image,
+          emailVerified: verified || existing.emailVerified,
           ...(adminEmail && email === adminEmail ? { role: 'admin' } : {})
         }
       });
     }
     return prisma.user.create({
       data: {
-        supabaseId: user.id,
+        clerkId: clerkUser.id,
         email,
-        emailVerified: user.email_confirmed_at ? new Date(user.email_confirmed_at) : null,
+        name,
+        image: clerkUser.imageUrl,
+        emailVerified: verified,
         role: adminEmail && email === adminEmail ? 'admin' : 'participant'
       }
     });

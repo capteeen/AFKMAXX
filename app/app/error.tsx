@@ -24,7 +24,7 @@ export default function AppError({
             Try again <span>↗</span>
           </button>
         ) : null}
-        <a className="button outline" href="/login">Sign in <span>↗</span></a>
+        <a className="button outline" href="/sign-in">Sign in <span>↗</span></a>
       </div>
     </main>
   );

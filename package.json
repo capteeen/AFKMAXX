@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "prisma generate && next dev -H 127.0.0.1 -p 4173",
+    "dev": "prisma generate && next dev -H localhost -p 4173",
     "build": "prisma generate && prisma migrate deploy && next build",
-    "start": "next start -H 127.0.0.1 -p 4173",
+    "start": "next start -H localhost -p 4173",
     "check": "prisma validate && tsc --noEmit",
     "extension:pack": "node scripts/pack-extension.mjs",
     "db:migrate": "prisma migrate dev",
@@ -13,6 +13,7 @@
     "postinstall": "prisma generate"
   },
   "dependencies": {
+    "@clerk/nextjs": "^7.9.2",
     "@prisma/client": "^6.16.2",
     "@supabase/ssr": "^0.12.7",
     "@supabase/supabase-js": "^2.116.0",

@@ -5,7 +5,7 @@ import { AdminBoard } from '@/components/admin-board';
 
 export default async function AdminPage() {
   const user = await getCurrentUser();
-  if (!user) redirect('/login');
+  if (!user) redirect('/sign-in');
   if (user.role !== 'admin') redirect('/app');
   return (
     <>

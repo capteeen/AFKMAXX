@@ -14,7 +14,7 @@ export function Landing() {
           <div className="hero-copy">
             <h1>YOU GO AFK.<br />IT DOES A<br /><span>SIDE QUEST.</span></h1>
             <p>Let your internet connection run small, approved website checks for paying customers while you’re away.</p>
-            <Link className="button lime" href="/login">Open the app <span>↗</span></Link>
+            <Link className="button lime" href="/sign-in">Open the app <span>↗</span></Link>
             <div className="hero-note micro">OPT IN. SET LIMITS. PAUSE ANYTIME.</div>
           </div>
           <div className="hero-art">
@@ -108,7 +108,7 @@ export function Landing() {
             <p>The webpage cannot read other sites. The extension can, only for hosts you approve.</p>
           </div>
           <div className="apps-grid">
-            <Link className="app-card" href="/login">
+            <Link className="app-card" href="/sign-in">
               <span className="micro">WEB APP</span>
               <h3>SIGN IN. SET LIMITS.</h3>
               <p>Accounts, jobs, history, and the placeholder bag live here.</p>
@@ -128,9 +128,9 @@ export function Landing() {
           <span className="micro">A SMALL SIDE QUEST. ON YOUR TERMS.</span>
           <h2>GO LIVE YOUR LIFE.<br />WE’LL CHECK <span>BACK.</span></h2>
           <div className="pilot-bottom">
-            <p>Sign in with email and password. No wallet. No token sale. The extension does the fetch.</p>
+            <p>Sign in to open the app. No wallet. No token sale. The extension does the fetch.</p>
             <div className="pilot-actions">
-              <Link className="button dark" href="/login">Sign in <span>↗</span></Link>
+              <Link className="button dark" href="/sign-in">Sign in <span>↗</span></Link>
               <Link className="button outline" href="/privacy">Privacy <span>↗</span></Link>
             </div>
           </div>
