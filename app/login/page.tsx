@@ -20,7 +20,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
         ) : null}
         {usingSecretKey ? (
           <p className="feedback" role="alert">
-            <code>NEXT_PUBLIC_SUPABASE_ANON_KEY</code> is a secret key. Replace it with the publishable/anon key from Supabase Project Settings → API, then restart <code>npm run dev</code>.
+            <code>NEXT_PUBLIC_SUPABASE_ANON_KEY</code> is a secret key (<code>sb_secret_</code>), which cannot be used in the browser. In Supabase: Project Settings → API, copy the <strong>publishable</strong> or legacy <strong>anon</strong> key (not the secret/service_role key). Set that on Vercel under Environment Variables, then <strong>redeploy</strong>. Locally, put it in <code>.env</code> and restart the dev server. Rotate the leaked secret in Supabase after changing it.
           </p>
         ) : null}
         {configured ? (
