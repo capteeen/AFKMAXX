@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420" fill="none" role="img" aria-labelledby="title desc">
+  <title id="title">AFKMAXX work record illustration</title><desc id="desc">A paper receipt documents a verified website check and an inspectable payout record.</desc>
+  <defs><pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" stroke="#F4F1E8" stroke-opacity=".06"/></pattern></defs><rect width="640" height="420" fill="#0B0D12"/><rect width="640" height="420" fill="url(#grid)"/>
+  <path d="m149 63 292 7 14 286-19-2-12 12-18-11-18 10-17-11-18 10-18-12-19 9-17-12-18 10-18-12-18 10-18-12-18 9-18-12-15 9z" fill="#F4F1E8"/>
+  <path d="M183 107h100m99 0h28M183 120h227" stroke="#0B0D12" stroke-width="3" stroke-dasharray="8 8"/><path d="M183 151h192" stroke="#0B0D12" stroke-width="4"/>
+  <path d="m184 189 11 11 24-28" stroke="#5876FF" stroke-width="6"/><path d="M237 181h149m-149 18h99" stroke="#0B0D12" stroke-width="4"/>
+  <path d="m184 235 11 11 24-28" stroke="#C8FF3D" stroke-width="6"/><path d="M237 227h166m-166 18h84" stroke="#0B0D12" stroke-width="4"/>
+  <path d="M183 278h227" stroke="#0B0D12" stroke-width="3" stroke-dasharray="8 8"/><path d="M183 307h95m119 0h13" stroke="#0B0D12" stroke-width="4"/>
+  <rect x="183" y="329" width="226" height="1" fill="#0B0D12"/><path d="M190 344h211" stroke="#0B0D12" stroke-width="11" stroke-dasharray="2 5"/>
+  <path d="M455 143h67v-39h73" stroke="#5876FF" stroke-width="3" stroke-dasharray="7 7"/><circle cx="455" cy="143" r="7" fill="#5876FF"/><rect x="540" y="67" width="67" height="72" rx="4" fill="#C8FF3D"/><path d="m556 102 8 8 18-20" stroke="#0B0D12" stroke-width="5"/><path d="M556 120h34" stroke="#0B0D12" stroke-width="4"/>
+  <path d="M105 291h60" stroke="#C8FF3D" stroke-width="3" stroke-dasharray="7 7"/><circle cx="164" cy="291" r="7" fill="#C8FF3D"/><rect x="35" y="249" width="70" height="84" rx="3" fill="#171C1B" stroke="#899188" stroke-width="2"/><path d="M52 273h36m-36 13h26m-26 13h32" stroke="#C8FF3D" stroke-width="4"/><circle cx="76" cy="310" r="7" fill="#5876FF"/>
+</svg>

@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AFKMAXX — Visual system & product specimens</title>
+<link rel="icon" href="assets/favicon.svg">
+<link rel="stylesheet" href="styles.css">
+<script src="app.js" defer>
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav wrap">
+<a class="brand" href="index.html">
+<img src="assets/mark.svg" alt="" width="32" height="29">AFKMAXX</a>
+<a class="nav-cta" href="index.html">Back to the landing page ↗</a>
+</header>
+<main id="main" class="wrap">
+<section class="system-hero">
+<span class="eyebrow micro">AFKMAXX / SYSTEM MANUAL 001</span>
+<h1>ONE WEIRD LITTLE<br>
+<em>OPERATING SYSTEM.</em>
+</h1>
+<p>Reusable visual language and representative product screens. All screens contain illustrative data. Local controls preview behavior; they do not install software, run checks, submit requests, or move money.</p>
+<nav class="system-nav" aria-label="System sections">
+<a href="#foundations">Foundations ↓</a>
+<a href="#onboarding">Onboarding ↓</a>
+<a href="#desktop">Dashboard ↓</a>
+<a href="#destinations">Destinations ↓</a>
+<a href="#history">Check history ↓</a>
+<a href="#payouts">Payouts ↓</a>
+<a href="#request">Customer request ↓</a>
+</nav>
+</section>
+<section id="foundations" class="section" style="padding-top:0">
+<span class="eyebrow micro">01 / FOUNDATIONS</span>
+<div class="swatches">
+<div class="swatch">MIDNIGHT / #0B0D12</div>
+<div class="swatch" style="background:var(--mint);color:var(--ink)">ACID MINT / #C8FF3D</div>
+<div class="swatch" style="background:var(--blue);color:var(--ink)">COBALT / #5876FF</div>
+<div class="swatch" style="background:var(--paper);color:var(--ink)">PAPER / #F4F1E8</div>
+</div>
+<div class="logo-specimens">
+<a href="assets/mark.svg" download>
+<img src="assets/mark.svg" alt="Dark-surface mark" width="54" height="48">SVG ↓</a>
+<a href="assets/mark-light.svg" download class="light-logo">
+<img src="assets/mark-light.svg" alt="Light-surface mark" width="54" height="48">SVG ↓</a>
+<a href="assets/app-icon.svg" download>
+<img src="assets/app-icon.svg" alt="App icon" width="64" height="64">APP ICON ↓</a>
+<a href="assets/favicon.svg" download>
+<img src="assets/favicon.svg" alt="24 pixel icon specimen" width="24" height="24">24 PX ↓</a>
+</div>
+<p style="margin-top:24px">
+<a class="text-link" href="DESIGN-SYSTEM.md">Read the implementation rules ↗</a>
+</p>
+</section>
+<div class="specimen-grid">
+<section id="onboarding" class="specimen">
+<span class="micro">SCREEN 01 / PARTICIPANT ONBOARDING / DEMO</span>
+<h2>PERMISSION FIRST.<br>
+<em>SIDE QUEST SECOND.</em>
+</h2>
+<p>Review what the app would be allowed to do. Installation and permission prompts are not available in this prototype.</p>
+<div class="screen-row">
+<span>Approved public website checks</span>
+<b>ONLY</b>
+</div>
+<div class="screen-row">
+<span>Daily cap</span>
+<b>100 MB</b>
+</div>
+<div class="screen-row">
+<span>Availability</span>
+<b>WHILE AFK</b>
+</div>
+<label class="check-label">
+<input id="consent" type="checkbox">I understand this preview and that work and income are not guaranteed.</label>
+<button id="preview-onboarding" class="button lime" disabled>Review demo preferences ↗</button>
+<p class="feedback" id="onboarding-feedback" role="status">
+</p>
+</section>
+<section id="desktop" class="specimen">
+<span class="micro">SCREEN 02 / DESKTOP STATUS / DEMO</span>
+<h2>YOU’RE IN CONTROL.</h2>
+<div class="screen-status">PAUSED Ⅱ</div>
+<p>No work is running. Your next side quest can wait.</p>
+<div class="screen-row">
+<span>Daily usage</span>
+<b>0 / 100 MB</b>
+</div>
+<div class="screen-row">
+<span>Approved destinations</span>
+<b>2</b>
+</div>
+<div class="screen-row">
+<span>Availability</span>
+<b>DEMO ONLY</b>
+</div>
+<a class="button lime" style="margin-top:24px" href="index.html#demo">Try the interactive controls ↗</a>
+</section>
+<section id="destinations" class="specimen">
+<span class="micro">SCREEN 03 / APPROVED DESTINATIONS / DEMO</span>
+<h2>A LIST.<br>
+<em>NOT A BLANK CHECK.</em>
+</h2>
+<p>Only explicitly selected public endpoints are eligible. These example domains are reserved for documentation.</p>
+<div class="screen-row">
+<span>example.com<br>
+<small>HTTPS / public homepage</small>
+</span>
+<b>APPROVED</b>
+</div>
+<div class="screen-row">
+<span>example.org<br>
+<small>HTTPS / public homepage</small>
+</span>
+<b>APPROVED</b>
+</div>
+<div class="screen-row">
+<span>All other destinations</span>
+<span>NOT PERMITTED</span>
+</div>
+<a class="text-link" href="index.html#demo">Change the demo destination list ↗</a>
+</section>
+<section id="history" class="specimen">
+<span class="micro">SCREEN 04 / CHECK HISTORY / SAMPLE DATA</span>
+<h2>RECEIPTS.<br>ACTUAL RECEIPTS.</h2>
+<p>Sample rows illustrate the audit trail. They are not live activity or accepted work.</p>
+<div class="table-scroll">
+<table>
+<caption class="micro">ILLUSTRATIVE CHECKS</caption>
+<thead>
+<tr>
+<th scope="col">DESTINATION</th>
+<th scope="col">RESULT</th>
+<th scope="col">REVIEW</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>example.com</td>
+<td>200 OK</td>
+<td>Sample only</td>
+</tr>
+<tr>
+<td>example.org</td>
+<td>Timeout</td>
+<td>Sample only</td>
+</tr>
+</tbody>
+</table>
+</div>
+<details>
+<summary>Inspect sample receipt <span>+</span>
+</summary>
+<p>Destination: example.com<br>Method: HTTPS response<br>Region: sample region<br>Data: 24 KB (illustrative)<br>Submission: none<br>Payout: none</p>
+</details>
+</section>
+<section id="payouts" class="specimen">
+<span class="micro">SCREEN 05 / PAYOUT HISTORY / DEMO</span>
+<h2>NO WORK.<br>
+<em>NO MADE-UP BALANCE.</em>
+</h2>
+<div class="empty">NO PAYOUT RECORDS YET.</div>
+<p>Accepted work may be paid through Robinhood Chain. Payout records and withdrawals belong here once an integration is available.</p>
+<div class="screen-row">
+<span>Wallet</span>
+<span>Not connected</span>
+</div>
+<div class="screen-row">
+<span>Withdrawals</span>
+<span>Not available in demo</span>
+</div>
+<p style="margin-top:20px">Rates, fees, eligibility, and supported withdrawals will be disclosed before the pilot. AFKMAXX is independent of Robinhood.</p>
+</section>
+<section id="request" class="specimen">
+<span class="micro">SCREEN 06 / CUSTOMER CHECK REQUEST / DEMO</span>
+<h2>YOUR SITE.<br>
+<em>ANOTHER PERSPECTIVE.</em>
+</h2>
+<p>Preview a request to check your own public website. Domain ownership verification is required in a live product.</p>
+<form id="request-form">
+<label for="request-url">PUBLIC HTTPS URL<input id="request-url" type="url" value="https://example.com" required>
+</label>
+<label for="request-region">REGION<select id="request-region">
+<option>Sample region A</option>
+<option>Sample region B</option>
+<option>Sample region C</option>
+</select>
+</label>
+<label class="check-label">
+<input type="checkbox" required>I understand this creates a local preview only.</label>
+<button class="button lime" type="submit">Preview sample request ↗</button>
+<p id="request-feedback" class="feedback" role="status">
+</p>
+</form>
+</section>
+</div>
+</main>
+<footer class="wrap">
+<a class="brand" href="index.html">AFKMAXX</a>
+<span class="micro">ABSURD ON THE SURFACE. EXACT UNDERNEATH.</span>
+<a href="index.html#pilot">Pilot status ↗</a>
+</footer>
+</body>
+</html>
