@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0B0D12">
+<meta name="description" content="AFKMAXX mobile demo. Go AFK on your phone, run illustrative checks, and inspect a sample $AFK bag.">
+<title>AFKMAXX — Mobile demo</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/display.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="stylesheet" href="styles.css">
+<script src="app.js" defer></script>
+</head>
+<body class="app-page">
+<a class="skip" href="#mobile-main">Skip to mobile demo</a>
+<header class="nav wrap">
+<a class="brand" href="index.html" aria-label="AFKMAXX home">
+<img src="assets/mark.svg" alt="" width="32" height="29">AFKMAXX</a>
+<nav aria-label="Product demos">
+<a href="index.html">Landing</a>
+<a href="app.html">Web app</a>
+<a href="desktop.html">Desktop demo</a>
+<a href="index.html#token">$AFK</a>
+</nav>
+<a class="nav-cta" href="index.html#pilot">Pilot status <span>↗</span></a>
+</header>
+<main id="mobile-main" class="wrap mobile-page">
+<div class="section-heading">
+<span class="micro eyebrow">MOBILE RUNTIME / DEMO</span>
+<h2>POCKET AFK.<br>
+<em>SAME RULES.</em></h2>
+<p>A working little phone. Zero checks leave this browser.<br>Reload resets everything.</p>
+</div>
+<div class="phone-stage">
+<div class="phone" data-app="mobile">
+<div class="phone-bar">
+<span>9:41</span>
+<span class="micro">AFKMAXX</span>
+<span aria-hidden="true">●●</span>
+</div>
+<div class="phone-body">
+<section class="phone-screen is-active" id="phone-home" data-phone-screen="home">
+<img src="assets/app-icon.svg" alt="" width="88" height="88">
+<p class="phone-word">AFK</p>
+<p class="phone-lede">You’re offline from the noise.</p>
+<button class="button lime" id="phone-go" type="button">Good stuff. <span>↗</span></button>
+<p class="micro phone-fine">OPT IN. SET LIMITS. PAUSE ANYTIME.</p>
+</section>
+<section class="phone-screen" id="phone-check" data-phone-screen="check" hidden>
+<span class="micro" id="phone-check-label">SCANNING INTERNET HABITS..</span>
+<h2 id="phone-check-title" aria-live="polite">CHECKING</h2>
+<div class="phone-meter" aria-hidden="true"><i id="phone-meter"></i></div>
+<ul class="phone-list">
+<li class="is-on">Distractions</li>
+<li class="is-on">Time sinks</li>
+<li class="is-on">Brainrot</li>
+<li id="phone-clearer">A clearer you</li>
+</ul>
+<p class="muted" id="phone-check-copy">Demo only. No network requests are being made.</p>
+<button class="button outline" id="phone-pause" type="button" aria-pressed="true">Pause demo checks <span>Ⅱ</span></button>
+</section>
+<section class="phone-screen" id="phone-limits" data-phone-screen="limits" hidden>
+<span class="micro">YOUR LIMITS</span>
+<h2 class="phone-h">HARD CAPS.</h2>
+<label for="phone-data-cap" class="micro">DAILY DATA CAP <output id="phone-cap-output" for="phone-data-cap">100 MB</output></label>
+<input id="phone-data-cap" type="range" min="25" max="250" step="25" value="100">
+<div class="range-labels micro"><span>25 MB</span><span>250 MB</span></div>
+<fieldset>
+<legend class="micro">APPROVED DESTINATIONS</legend>
+<label>
+<input type="checkbox" data-phone-destination="example.com" checked>
+<span>example.com</span>
+<span class="micro">HTTPS</span>
+</label>
+<label>
+<input type="checkbox" data-phone-destination="example.org" checked>
+<span>example.org</span>
+<span class="micro">HTTPS</span>
+</label>
+</fieldset>
+<p class="control-note">Only selected destinations. You keep the off switch.</p>
+</section>
+<section class="phone-screen receipt phone-receipt" id="phone-receipt" data-phone-screen="receipt" hidden>
+<div class="receipt-header">
+<span class="brand">AFKMAXX</span>
+<span class="micro">SAMPLE RECEIPT<br>DEMO / 0001</span>
+</div>
+<hr>
+<h3>CHECKED THE INTERNET SO YOU DON’T HAVE TO.</h3>
+<dl>
+<div><dt>DISTRACTIONS</dt><dd>−23%</dd></div>
+<div><dt>DOOMSCROLLING</dt><dd>−41%</dd></div>
+<div><dt>BRAINROT</dt><dd>−37%</dd></div>
+<div><dt>DESTINATION</dt><dd id="phone-receipt-destination">example.com</dd></div>
+<div><dt>RESULT</dt><dd>200 OK (sample)</dd></div>
+</dl>
+<div class="receipt-stamp" id="phone-receipt-status">ILLUSTRATIVE / NOT SUBMITTED</div>
+<p>A clearer you. Share this progress only if you want. Nothing was paid.</p>
+</section>
+<section class="phone-screen" id="phone-bag" data-phone-screen="bag" hidden>
+<span class="micro">$AFK BAG / NOT LIVE</span>
+<h2 class="phone-h">$AFK</h2>
+<strong class="phone-bag" id="phone-bag-value">0 $AFK</strong>
+<p class="micro" id="phone-bag-note">DEMO CREDIT / NOT SETTLED</p>
+<div class="screen-row"><span>Market</span><b>Robinhood (intended)</b></div>
+<div class="screen-row"><span>Job</span><span>Fuel + AFK pay</span></div>
+<div class="screen-row"><span>Buy here</span><span>No</span></div>
+<p class="control-note">Same token as the desktop runtime. Holding $AFK is not an earnings estimate.</p>
+</section>
+</div>
+<nav class="phone-tabs" aria-label="Mobile screens">
+<button type="button" class="is-active" data-phone-tab="home">AFK</button>
+<button type="button" data-phone-tab="check">Check</button>
+<button type="button" data-phone-tab="limits">Limits</button>
+<button type="button" data-phone-tab="receipt">Slip</button>
+<button type="button" data-phone-tab="bag">$AFK</button>
+</nav>
+</div>
+</div>
+<p class="mobile-aside muted">This is a product demo, not an installable app. No software is installed, no traffic is routed, and no $AFK can be bought or withdrawn here.</p>
+</main>
+<footer class="wrap">
+<a class="brand" href="index.html"><img src="assets/mark.svg" alt="" width="26" height="25">AFKMAXX</a>
+<span class="micro">MOBILE DEMO / NO NETWORK ACTIVITY</span>
+<a href="desktop.html">Desktop demo ↗</a>
+<span class="micro">© 2026 AFKMAXX</span>
+</footer>
+</body>
+</html>

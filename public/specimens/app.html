@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0B0D12">
+<meta name="description" content="AFKMAXX web app. Approve destinations, pause anytime, and run HTTPS checks from your machine through the AFKMAXX extension.">
+<title>AFKMAXX — Web app</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/display.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="stylesheet" href="styles.css">
+<script src="product.js" defer></script>
+</head>
+<body class="app-page">
+<a class="skip" href="#app-main">Skip to web app</a>
+<header class="nav wrap">
+<a class="brand" href="index.html" aria-label="AFKMAXX home">
+<img src="assets/mark.svg" alt="" width="32" height="29">AFKMAXX</a>
+<nav aria-label="Product">
+<a href="index.html">Landing</a>
+<a href="desktop.html">Desktop demo</a>
+<a href="mobile.html">Mobile demo</a>
+</nav>
+<a class="nav-cta" href="#install">Add the extension <span>↗</span></a>
+</header>
+<main id="app-main" class="wrap desktop-page">
+<div class="section-heading">
+<span class="micro eyebrow">WEB RUNTIME / YOUR MACHINE</span>
+<h2>THE WEB APP.<br>THE <em>EXTENSION</em><br>DOES THE FETCH.</h2>
+<p>Settings stay in this browser. Checks leave this page only through the installed extension, and only to hosts you approve.</p>
+</div>
+<div id="ext-banner" class="ext-banner" role="status">Looking for the AFKMAXX extension…</div>
+<div class="desk-shell" data-app="product">
+<div class="desk-chrome">
+<span class="desk-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+<span class="brand"><img src="assets/mark.svg" alt="" width="20" height="18">AFKMAXX</span>
+<span class="micro">WEB APP / LOCAL SETTINGS</span>
+</div>
+<div class="desk-body">
+<nav class="desk-nav" aria-label="Web app screens">
+<button type="button" class="is-active" data-prod-screen="status">Status</button>
+<button type="button" data-prod-screen="destinations">Destinations</button>
+<button type="button" data-prod-screen="history">History</button>
+<button type="button" data-prod-screen="request">Request</button>
+<button type="button" data-prod-screen="payouts">Payouts</button>
+<button type="button" data-prod-screen="token">$AFK bag</button>
+<button type="button" data-prod-screen="install">Extension</button>
+</nav>
+<div class="desk-stage">
+<section class="desk-screen is-active" id="prod-status" data-screen="status">
+<div class="dashboard desk-dash">
+<div class="status-area">
+<span class="micro" id="prod-status-label">YOUR CONNECTION IS TAKING A BREATHER</span>
+<h3 id="prod-status-title" aria-live="polite">PAUSED<span class="status-symbol">Ⅱ</span></h3>
+<p id="prod-status-description">Install the extension, approve a destination, then start.</p>
+<button class="button lime" id="prod-toggle" aria-pressed="false" disabled>Start checks <span>↗</span></button>
+</div>
+<div class="controls">
+<label class="check-label">
+<input id="prod-consent" type="checkbox">
+<span>I understand checks use my connection, only hit approved HTTPS hosts, and are unaudited until a verifier exists. Work and income are not guaranteed.</span>
+</label>
+<label for="prod-data-cap" class="micro">DAILY DATA CAP <output id="prod-cap-output" for="prod-data-cap">100 MB</output></label>
+<input id="prod-data-cap" type="range" min="25" max="250" step="25" value="100">
+<div class="range-labels micro"><span>25 MB</span><span>250 MB</span></div>
+<p class="control-note" id="prod-usage-note">Usage today: 0 MB. The extension stops when the cap is reached.</p>
+</div>
+</div>
+</section>
+<section class="desk-screen" id="prod-destinations" data-screen="destinations" hidden>
+<span class="micro">APPROVED DESTINATIONS</span>
+<h3 class="desk-title">A LIST. NOT A BLANK CHECK.</h3>
+<fieldset>
+<legend class="micro">PUBLIC HOMEPAGES</legend>
+<label>
+<input type="checkbox" data-prod-destination="example.com" checked>
+<span>example.com <small>Public homepage</small></span>
+<span class="micro">HTTPS</span>
+</label>
+<label>
+<input type="checkbox" data-prod-destination="example.org" checked>
+<span>example.org <small>Public homepage</small></span>
+<span class="micro">HTTPS</span>
+</label>
+</fieldset>
+<div id="prod-extra-list"></div>
+<p class="control-note">All other destinations stay not permitted. Extra hosts need a Grant click in the extension popup.</p>
+</section>
+<section class="desk-screen" id="prod-history" data-screen="history" hidden>
+<span class="micro">CHECK HISTORY / THIS MACHINE</span>
+<h3 class="desk-title">RECEIPTS. ACTUAL RECEIPTS.</h3>
+<p class="muted" id="prod-history-empty">No checks yet. Start on the status screen after the extension is connected. Results are unaudited.</p>
+<div class="table-scroll">
+<table>
+<caption class="micro">CHECKS FROM THIS BROWSER EXTENSION</caption>
+<thead>
+<tr>
+<th scope="col">DESTINATION</th>
+<th scope="col">RESULT</th>
+<th scope="col">DATA</th>
+<th scope="col">REVIEW</th>
+</tr>
+</thead>
+<tbody id="prod-history-body"></tbody>
+</table>
+</div>
+</section>
+<section class="desk-screen" id="prod-request" data-screen="request" hidden>
+<span class="micro">CUSTOMER CHECK REQUEST / LOCAL</span>
+<h3 class="desk-title">YOUR SITE. ANOTHER PERSPECTIVE.</h3>
+<p class="muted">Stored in this browser only. Domain ownership is not verified in this slice. The extension will not fetch a host until it is on your allowlist and granted.</p>
+<form id="prod-request-form">
+<label for="prod-request-url">PUBLIC HTTPS URL<input id="prod-request-url" type="url" value="https://example.com" required></label>
+<label for="prod-request-region">REGION LABEL<input id="prod-request-region" type="text" value="Sample region A" required></label>
+<button class="button lime" type="submit">Save local request ↗</button>
+<p id="prod-request-feedback" class="feedback" role="status"></p>
+</form>
+<ul class="request-log" id="prod-request-log"></ul>
+</section>
+<section class="desk-screen" id="prod-payouts" data-screen="payouts" hidden>
+<span class="micro">PAYOUT HISTORY</span>
+<h3 class="desk-title">NO WORK. NO MADE-UP BALANCE.</h3>
+<div class="empty">NO PAYOUT RECORDS YET.</div>
+<p>Accepted work may be paid in $AFK through Robinhood Chain. A successful check in history is not accepted work and is not a payout.</p>
+<div class="screen-row"><span>Wallet</span><span>Not connected</span></div>
+<div class="screen-row"><span>Withdrawals</span><span>Not available</span></div>
+</section>
+<section class="desk-screen" id="prod-token" data-screen="token" hidden>
+<span class="micro">$AFK BAG / NOT LIVE</span>
+<h3 class="desk-title">MEMECOIN WITH A DAY JOB.</h3>
+<div class="token-stat">
+<span class="micro">BAG</span>
+<strong>0 $AFK</strong>
+<span class="micro">NO SETTLEMENT IN THIS SLICE</span>
+</div>
+<div class="screen-row"><span>Intended market</span><b>Robinhood</b></div>
+<div class="screen-row"><span>Buy / sell here</span><span>No</span></div>
+<p class="control-note">Running checks does not credit $AFK. Holding the token is not an earnings estimate.</p>
+</section>
+<section class="desk-screen" id="prod-install" data-screen="install" hidden>
+<span class="micro" id="install">LOAD THE RUNTIME</span>
+<h3 class="desk-title">ADD THE EXTENSION.</h3>
+<ol class="install-steps">
+<li>Open <code>chrome://extensions</code> or Firefox <code>about:debugging#/runtime/this-firefox</code>.</li>
+<li>Enable developer / debug mode.</li>
+<li>Load unpacked (Chrome) or temporary add-on (Firefox) from the <code>extension/</code> folder in this project.</li>
+<li>Open this web app on <code>http://127.0.0.1</code> or <code>http://localhost</code> so the bridge can connect.</li>
+<li>Grant any extra hosts in the extension popup. example.com and example.org are pre-allowed.</li>
+</ol>
+<p class="control-note">Without the extension, this page can save settings but cannot read third-party HTTPS responses. That is a browser rule, not a missing button.</p>
+</section>
+</div>
+</div>
+</div>
+</main>
+<footer class="wrap">
+<a class="brand" href="index.html"><img src="assets/mark.svg" alt="" width="26" height="25">AFKMAXX</a>
+<span class="micro">WEB APP / EXTENSION RUNTIME</span>
+<a href="index.html#apps">Demos ↗</a>
+<span class="micro">© 2026 AFKMAXX</span>
+</footer>
+</body>
+</html>

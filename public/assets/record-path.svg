@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 310" fill="none">
+<title>Website checks and validation happen offchain; payout records are onchain</title>
+<path d="M331 128h111m257 0h93" stroke="#5876FF" stroke-width="3" stroke-dasharray="7 8"/><path d="m430 120 12 8-12 8m350-8 12 8-12 8" stroke="#5876FF" stroke-width="3"/>
+<rect x="32" y="40" width="299" height="179" rx="8" fill="#161C19" stroke="#717C6D" stroke-width="2"/><path d="M32 74h299" stroke="#717C6D"/>
+<circle cx="53" cy="57" r="4" fill="#C8FF3D"/><path d="M64 105h104m-104 18h75m-75 41h163m-163 18h126" stroke="#ADB7A7" stroke-width="4"/>
+<rect x="248" y="102" width="53" height="53" rx="4" fill="#C8FF3D"/><path d="m260 128 9 9 20-24" stroke="#0B0D12" stroke-width="4"/>
+<path d="M446 24h249v207l-12-6-12 6-12-6-12 6-12-6-12 6-12-6-12 6-12-6-12 6-12-6-12 6-12-6-12 6-12-6-12 6-12-6-12 6-12-6-12 6z" fill="#F4F1E8"/>
+<g fill="#0B0D12" font-family="monospace"><text x="470" y="62" font-size="16">RESULT REVIEW</text><text x="470" y="98" font-size="12">CHECK → VALIDATE</text><text x="470" y="166" font-size="12">ACCEPTED WORK ONLY</text></g>
+<path d="M470 118h201m-201 70h201" stroke="#0B0D12" stroke-dasharray="5 5"/>
+<rect x="808" y="52" width="267" height="160" rx="7" fill="#191F1C" stroke="#717C6D" stroke-width="2"/><path d="m824 38 267 0v160" stroke="#414C3D" stroke-width="2"/>
+<g fill="#C8FF3D" font-family="monospace" font-size="15"><text x="836" y="97">PAYOUT RECORD</text></g><path d="M837 118h208m-208 24h142m-142 24h183" stroke="#A7AAA4" stroke-width="3"/>
+<g fill="#A7AAA4" text-anchor="middle" font-family="monospace" font-size="12" letter-spacing="1"><text x="182" y="274">01 / WEBSITE CHECK</text><text x="570" y="274">02 / OFFCHAIN VALIDATION</text><text x="943" y="274">03 / ONCHAIN RECORD</text></g>
+</svg>

@@ -1,5 +1,5 @@
 import {readFile,access} from 'node:fs/promises';
-for(const page of ['index.html','system.html']){
+for(const page of ['index.html','system.html','desktop.html','mobile.html','app.html']){
  const html=await readFile(page,'utf8');
  const ids=[...html.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);
  if(new Set(ids).size!==ids.length) throw Error(`Duplicate IDs in ${page}`);

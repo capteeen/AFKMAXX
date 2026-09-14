@@ -40,8 +40,10 @@ One staggered hero entrance, one-time scroll reveals, and a quiet signal pulse o
 
 ## Screen specimens
 
-`system.html` includes participant onboarding, desktop status, approved destinations, check history, payout history, and a customer request. Consent and request preview interactions are local demonstrations. Never interpret these controls as real authorization to run traffic.
+`system.html` includes participant onboarding, desktop status, approved destinations, check history, payout history, and a customer request. `desktop.html` and `mobile.html` are interactive product demos: status, destinations, history, payouts, and an illustrative `$AFK` bag. Consent and request preview interactions on those pages are local demonstrations. Never interpret demo controls as real authorization to run traffic, a token sale, or a Robinhood listing.
+
+`app.html` is the web product. It may persist settings in `localStorage`. Live HTTPS checks require the unpacked extension in `extension/`. The extension may only GET allowlisted `https:` hosts, must honor pause and the daily cap, must not read browsing history, and must not offer an unrestricted proxy. Check results in the web app are unaudited until a verifier exists.
 
 ## Data and product boundaries
 
-No analytics, cookies, local storage, network checks, signup collection, wallet integration, or backend. Reload resets all controls. This is a reviewable product concept, not a functioning participant service. Live work requires explicit consent and an installed runtime, domain ownership verification, destination enforcement, metering, scheduling, result verification, abuse prevention, a published data policy, and tested payout integration. Verification methodology, payment terms, eligibility, fees, and availability are deliberately unpromised.
+The landing page and demos still use no analytics, cookies, local storage, network checks, signup collection, wallet integration, or backend. Reload resets demo controls. The web app is the exception: it stores consent, destinations, and local requests, and talks to the extension. Live work still requires explicit consent, destination enforcement, metering, a published data policy, result verification, abuse prevention, and tested payout integration before a public pilot. Verification methodology, payment terms, eligibility, fees, and availability are deliberately unpromised.

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420" fill="none" role="img" aria-labelledby="title desc">
+  <title id="title">AFKMAXX approved check route illustration</title><desc id="desc">An AFKMAXX desktop runs a small approved check to one public website and returns a result.</desc>
+  <defs><pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" stroke="#F4F1E8" stroke-opacity=".06"/></pattern></defs><rect width="640" height="420" fill="#0B0D12"/><rect width="640" height="420" fill="url(#grid)"/>
+  <ellipse cx="263" cy="345" rx="194" ry="35" fill="#000" opacity=".4"/>
+  <path d="m94 274 271-78 142 67-269 88z" fill="#202625" stroke="#929A90" stroke-width="2"/><path d="M94 274v18l144 77 269-88v-18M238 351v18" stroke="#929A90" stroke-width="5"/>
+  <path d="M176 120 329 80q12-3 12 10v128l-164 46V132q0-8-1-12Z" fill="#131817" stroke="#949C92" stroke-width="3"/><path d="m190 136 136-36v107l-136 38V136Z" fill="#0B0D12"/>
+  <g transform="translate(220 151)"><rect width="16" height="48" rx="4" fill="#C8FF3D"/><rect x="45" width="16" height="48" rx="4" fill="#C8FF3D"/><path d="m37 7-17 23h12l-5 17 20-28H35z" fill="#5876FF"/></g>
+  <path d="m177 264 164-46" stroke="#C8FF3D" stroke-width="3"/><path d="m203 287 87-25 48 22-88 29z" stroke="#8E978D"/><path d="m223 287 82-22m-64 31 82-23" stroke="#626A62"/>
+  <path d="M340 154h115v-57h70" stroke="#5876FF" stroke-width="3" stroke-dasharray="8 9"/><circle cx="340" cy="154" r="8" fill="#5876FF"/>
+  <rect x="525" y="60" width="84" height="74" rx="4" fill="#F4F1E8"/><path d="M544 84h45m-45 12h27m-27 12h36" stroke="#0B0D12" stroke-width="4"/><path d="m545 114 8 8 17-20" stroke="#C8FF3D" stroke-width="5"/>
+  <path d="M478 248h87" stroke="#C8FF3D" stroke-width="3" stroke-dasharray="7 8"/><circle cx="478" cy="248" r="7" fill="#C8FF3D"/><rect x="522" y="208" width="84" height="82" rx="3" fill="#C8FF3D"/><path d="M542 232h45m-45 13h31m-31 13h39" stroke="#0B0D12" stroke-width="4"/><circle cx="580" cy="268" r="8" fill="#0B0D12"/>
+  <path d="M427 192v56h51" stroke="#C8FF3D" stroke-width="2" stroke-dasharray="6 7"/>
+</svg>

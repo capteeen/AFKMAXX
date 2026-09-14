@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 440" fill="none">
+<title>One approved website, three regional perspectives</title>
+<defs><pattern id="g" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" stroke="#F4F1E8" stroke-opacity=".055"/></pattern></defs>
+<rect width="640" height="440" rx="8" fill="#0B0D12"/><rect width="640" height="440" fill="url(#g)"/>
+<ellipse cx="320" cy="305" rx="250" ry="85" stroke="#343C38"/><ellipse cx="320" cy="305" rx="175" ry="58" stroke="#343C38" stroke-dasharray="4 7"/>
+<path d="M320 193v48H112v59m208-59v59m0-59h208v59" stroke="#5876FF" stroke-width="3"/>
+<rect x="186" y="58" width="268" height="135" rx="7" fill="#1B211F" stroke="#899187" stroke-width="2"/>
+<path d="M186 87h268" stroke="#596357"/><circle cx="202" cy="73" r="3" fill="#C8FF3D"/><circle cx="213" cy="73" r="3" fill="#5876FF"/>
+<path d="m221 118 8 8 16-18" stroke="#C8FF3D" stroke-width="4"/>
+<g fill="#F4F1E8" font-family="monospace" font-size="15"><text x="260" y="125">YOUR PUBLIC SITE</text><text x="216" y="162" font-size="12" fill="#A7AAA4">example.com / HTTPS</text></g>
+<g fill="#151B18" stroke="#939C90" stroke-width="2"><rect x="51" y="286" width="122" height="76" rx="5"/><rect x="259" y="286" width="122" height="76" rx="5"/><rect x="467" y="286" width="122" height="76" rx="5"/></g>
+<g fill="#C8FF3D"><circle cx="112" cy="286" r="6"/><circle cx="320" cy="286" r="6"/><circle cx="528" cy="286" r="6"/></g>
+<g fill="#F4F1E8" text-anchor="middle" font-family="monospace" font-size="13"><text x="112" y="319">REGION A</text><text x="320" y="319">REGION B</text><text x="528" y="319">REGION C</text></g>
+<g fill="#C8FF3D" text-anchor="middle" font-family="monospace" font-size="10"><text x="112" y="342">HTTPS CHECK</text><text x="320" y="342">HTTPS CHECK</text><text x="528" y="342">HTTPS CHECK</text></g>
+<text x="320" y="413" text-anchor="middle" fill="#A7AAA4" font-family="monospace" font-size="11" letter-spacing="1">ILLUSTRATIVE ROUTES / NOT LIVE</text>
+</svg>

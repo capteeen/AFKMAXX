@@ -1,0 +1,121 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  supabaseId    String?   @unique
+  emailVerified DateTime?
+  name          String?
+  image         String?
+  role          String    @default("participant")
+  status        String    @default("active")
+  dailyCapMb    Int       @default(100)
+  consentAt     DateTime?
+  createdAt     DateTime  @default(now())
+  accounts      Account[]
+  sessions      Session[]
+  destinations  Destination[]
+  jobsCreated   Job[]          @relation("JobCreator")
+  jobsAssigned  Job[]          @relation("JobAssignee")
+  results       CheckResult[]
+  tokens        DeviceToken[]
+  ledger        LedgerEntry[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Destination {
+  id          String   @id @default(cuid())
+  hostname    String
+  ownerUserId String
+  owner       User     @relation(fields: [ownerUserId], references: [id], onDelete: Cascade)
+  status      String   @default("pending")
+  createdAt   DateTime @default(now())
+  jobs        Job[]
+
+  @@unique([ownerUserId, hostname])
+}
+
+model Job {
+  id            String       @id @default(cuid())
+  destinationId String
+  destination   Destination  @relation(fields: [destinationId], references: [id], onDelete: Cascade)
+  regionLabel   String
+  createdById   String
+  createdBy     User         @relation("JobCreator", fields: [createdById], references: [id], onDelete: Cascade)
+  assignedToId  String?
+  assignedTo    User?        @relation("JobAssignee", fields: [assignedToId], references: [id], onDelete: SetNull)
+  status        String       @default("queued")
+  createdAt     DateTime     @default(now())
+  result        CheckResult?
+}
+
+model CheckResult {
+  id            String   @id @default(cuid())
+  jobId         String   @unique
+  job           Job      @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  participantId String
+  participant   User     @relation(fields: [participantId], references: [id], onDelete: Cascade)
+  statusCode    Int
+  bytes         Int
+  ms            Int
+  fetchedAt     DateTime @default(now())
+  review        String   @default("unaudited")
+}
+
+model DeviceToken {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  hash      String   @unique
+  lastSeen  DateTime @default(now())
+  createdAt DateTime @default(now())
+}
+
+model LedgerEntry {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  delta     Int
+  reason    String   @default("placeholder_only")
+  createdAt DateTime @default(now())
+}

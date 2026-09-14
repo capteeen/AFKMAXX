@@ -1,0 +1,50 @@
+{
+  "manifest_version": 3,
+  "name": "AFKMAXX",
+  "version": "1.0.0",
+  "description": "Run small, approved HTTPS checks from this machine. Pause anytime. No browsing history. No proxy.",
+  "homepage_url": "https://github.com/capteeen/AFKMAXX",
+  "minimum_chrome_version": "121",
+  "icons": {
+    "16": "icon16.png",
+    "32": "icon32.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
+  "action": {
+    "default_title": "AFKMAXX",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icon16.png",
+      "32": "icon32.png",
+      "48": "icon48.png",
+      "128": "icon128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": ["storage", "alarms", "scripting"],
+  "host_permissions": [
+    "http://127.0.0.1/*",
+    "http://localhost/*",
+    "https://example.com/*",
+    "https://www.example.com/*",
+    "https://example.org/*",
+    "https://www.example.org/*"
+  ],
+  "optional_host_permissions": ["https://*/*"],
+  "content_scripts": [
+    {
+      "matches": ["http://127.0.0.1/*", "http://localhost/*"],
+      "js": ["bridge.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "afkmaxx@local",
+      "strict_min_version": "121.0"
+    }
+  }
+}

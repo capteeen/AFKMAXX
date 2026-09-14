@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>AFKMAXX extension screenshot</title>
+<style>
+html,body{margin:0;height:100%;background:#0B0D12;color:#F4F1E8;font:18px/1.4 system-ui,sans-serif}
+.frame{width:1280px;height:800px;display:flex;align-items:center;justify-content:center;gap:64px;background:radial-gradient(circle at 20% 20%,#1A1E27, #0B0D12 55%)}
+.popup{width:300px;background:#0B0D12;border:1px solid #2A3140;padding:16px;box-shadow:0 24px 80px #0008}
+h1{font-size:18px;margin:0 0 8px}
+p{color:#A7AAA4;font-size:12px;margin:8px 0 0}
+.btn{display:block;margin:8px 0 0;padding:10px;background:#C8FF3D;color:#0B0D12;font-weight:700;text-align:center}
+.btn2{background:#1A1E27;color:#F4F1E8}
+label,input{display:block;width:100%;box-sizing:border-box;margin-top:8px;font-size:12px}
+input{padding:8px;border:1px solid #2A3140;background:#11141A;color:#F4F1E8}
+.copy{max-width:420px}
+.copy h2{font-size:42px;margin:0 0 12px}
+.copy p{font-size:16px;color:#A7AAA4}
+</style>
+</head>
+<body>
+<div class="frame">
+  <div class="copy">
+    <p>CHROME EXTENSION</p>
+    <h2>Approved HTTPS checks.<br>Your pause button.</h2>
+    <p>Connect the AFKMAXX app, grant hosts, start. Not a proxy. Not browsing history.</p>
+  </div>
+  <div class="popup">
+    <h1>AFKMAXX</h1>
+    <p>Paused. 0.00 / 100 MB today.</p>
+    <div class="btn">Pause checks</div>
+    <label>Web app origin</label>
+    <input value="http://127.0.0.1:4173" readonly>
+    <div class="btn btn2">Connect this site</div>
+    <p>Grant extra HTTPS check hosts</p>
+    <label>Host</label>
+    <input value="example.net" readonly>
+    <div class="btn btn2">Grant host</div>
+  </div>
+</div>
+</body>
+</html>

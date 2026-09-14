@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>AFKMAXX</title>
+<style>
+body{margin:0;width:300px;background:#0B0D12;color:#F4F1E8;font:14px/1.45 system-ui,sans-serif;padding:16px}
+h1{font-size:18px;margin:0 0 8px}
+button{width:100%;margin:8px 0 0;padding:10px;border:0;background:#C8FF3D;color:#0B0D12;cursor:pointer;font-weight:600}
+button.secondary{background:#1A1E27;color:#F4F1E8}
+p,li{color:#A7AAA4;font-size:12px;margin:8px 0 0}
+input,label{display:block;margin-top:8px;width:100%;box-sizing:border-box}
+input{padding:8px;border:1px solid #2A3140;background:#0B0D12;color:#F4F1E8}
+</style>
+</head>
+<body>
+<h1>AFKMAXX</h1>
+<p id="status">Paused.</p>
+<button id="pause" type="button">Pause checks</button>
+<label>Web app origin <input id="origin" placeholder="https://your-app.example"></label>
+<button id="link" class="secondary" type="button">Connect this site</button>
+<p id="link-note"></p>
+<p>Grant extra HTTPS check hosts (Chrome requires a click):</p>
+<label>Host <input id="host" placeholder="example.net"></label>
+<button id="grant" class="secondary" type="button">Grant host</button>
+<p id="grant-note"></p>
+<script src="popup.js"></script>
+</body>
+</html>

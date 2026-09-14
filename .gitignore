@@ -1,0 +1,11 @@
+node_modules
+.next
+.env
+.env.local
+prisma/dev.db
+prisma/dev.db-journal
+dist
+dist-extension
+dist-extension.zip
+*.log
+.DS_Store

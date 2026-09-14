@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420" fill="none" role="img" aria-labelledby="title desc">
+  <title id="title">AFKMAXX permission console illustration</title>
+  <desc id="desc">A lime control panel shows an approved destination, a daily data cap, and an off switch.</desc>
+  <defs><pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" stroke="#F4F1E8" stroke-opacity=".06"/></pattern></defs>
+  <rect width="640" height="420" fill="#0B0D12"/><rect width="640" height="420" fill="url(#grid)"/>
+  <path d="M95 338h448" stroke="#687067" stroke-width="2"/>
+  <path d="m162 91 293-38q15-2 15 13v236q0 14-14 16l-296 39q-15 2-15-13V107q0-14 17-16Z" fill="#171C1B" stroke="#8D968D" stroke-width="3"/>
+  <path d="m166 113 283-37v212l-283 37V113Z" fill="#0B0D12"/>
+  <path d="M166 113 449 76" stroke="#3B433D" stroke-width="18"/>
+  <rect x="189" y="142" width="237" height="53" rx="4" fill="#C8FF3D"/>
+  <path d="m207 168 10 10 20-24" stroke="#0B0D12" stroke-width="5"/><path d="M258 158h116m-116 17h84" stroke="#0B0D12" stroke-width="4"/>
+  <path d="M190 223h211M190 257h211M190 291h211" stroke="#59625A" stroke-width="2"/>
+  <circle cx="207" cy="223" r="7" fill="#5876FF"/><circle cx="207" cy="257" r="7" fill="#C8FF3D"/><circle cx="207" cy="291" r="7" fill="#F4F1E8"/>
+  <path d="M236 223h92m28 0h30M236 257h62m71 0h17M236 291h104m19 0h27" stroke="#A7AAA4" stroke-width="4"/>
+  <rect x="501" y="124" width="85" height="85" rx="42.5" fill="#C8FF3D"/><path d="M526 167h35" stroke="#0B0D12" stroke-width="8" stroke-linecap="round"/><circle cx="544" cy="167" r="13" fill="#0B0D12"/>
+  <path d="M471 167h30" stroke="#5876FF" stroke-width="3" stroke-dasharray="7 7"/><circle cx="471" cy="167" r="7" fill="#5876FF"/>
+  <path d="M101 301 76 336l42 1" stroke="#C8FF3D" stroke-width="4"/><path d="M97 300c-30-4-55-30-55-63" stroke="#C8FF3D" stroke-width="3" stroke-dasharray="7 8"/>
+  <rect x="38" y="183" width="94" height="58" rx="4" fill="#F4F1E8"/><path d="M55 204h59m-59 14h37" stroke="#0B0D12" stroke-width="4"/><circle cx="113" cy="219" r="7" fill="#C8FF3D"/>
+</svg>

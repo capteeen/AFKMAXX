@@ -1,1 +1,30 @@
-{"name":"afkmaxx","version":"1.0.0","private":true,"type":"module","scripts":{"dev":"python3 -m http.server 4173 --bind 127.0.0.1","build":"node scripts/build.mjs","check":"node --check app.js && node scripts/check.mjs"}}
+{
+  "name": "afkmaxx",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "prisma generate && next dev -H 127.0.0.1 -p 4173",
+    "build": "prisma generate && prisma migrate deploy && next build",
+    "start": "next start -H 127.0.0.1 -p 4173",
+    "check": "prisma validate && tsc --noEmit",
+    "extension:pack": "node scripts/pack-extension.mjs",
+    "db:migrate": "prisma migrate dev",
+    "db:push": "prisma db push",
+    "postinstall": "prisma generate"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.16.2",
+    "@supabase/ssr": "^0.12.7",
+    "@supabase/supabase-js": "^2.116.0",
+    "next": "^16.3.5",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.5.1",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "prisma": "^6.16.2",
+    "typescript": "^7.0.2"
+  }
+}

@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0B0D12">
+<meta name="description" content="AFKMAXX desktop demo. Pause, approve destinations, and inspect a sample $AFK bag. No network checks leave your browser.">
+<title>AFKMAXX — Desktop demo</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/display.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="stylesheet" href="styles.css">
+<script src="app.js" defer></script>
+</head>
+<body class="app-page">
+<a class="skip" href="#desktop-main">Skip to desktop demo</a>
+<header class="nav wrap">
+<a class="brand" href="index.html" aria-label="AFKMAXX home">
+<img src="assets/mark.svg" alt="" width="32" height="29">AFKMAXX</a>
+<nav aria-label="Product demos">
+<a href="index.html">Landing</a>
+<a href="app.html">Web app</a>
+<a href="mobile.html">Mobile demo</a>
+<a href="index.html#token">$AFK</a>
+</nav>
+<a class="nav-cta" href="index.html#pilot">Pilot status <span>↗</span></a>
+</header>
+<main id="desktop-main" class="wrap desktop-page">
+<div class="section-heading">
+<span class="micro eyebrow">DESKTOP RUNTIME / DEMO</span>
+<h2>THE EMPTY CHAIR<br>HAS A <em>CONSOLE.</em></h2>
+<p>Illustrative desktop. Zero checks leave this browser.<br>Reload resets everything.</p>
+</div>
+<div class="desk-shell" data-app="desktop">
+<div class="desk-chrome">
+<span class="desk-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+<span class="brand"><img src="assets/mark.svg" alt="" width="20" height="18">AFKMAXX</span>
+<span class="micro">DESKTOP / LOCAL DEMO</span>
+</div>
+<div class="desk-body">
+<nav class="desk-nav" aria-label="Desktop screens">
+<button type="button" class="is-active" data-desk-screen="status">Status</button>
+<button type="button" data-desk-screen="destinations">Destinations</button>
+<button type="button" data-desk-screen="history">History</button>
+<button type="button" data-desk-screen="payouts">Payouts</button>
+<button type="button" data-desk-screen="token">$AFK bag</button>
+</nav>
+<div class="desk-stage">
+<section class="desk-screen is-active" id="desk-status" data-screen="status">
+<div class="dashboard desk-dash">
+<div class="status-area">
+<span class="micro" id="desk-status-label">YOUR CONNECTION IS TAKING A BREATHER</span>
+<h3 id="desk-status-title" aria-live="polite">PAUSED<span class="status-symbol">Ⅱ</span></h3>
+<p id="desk-status-description">Nothing runs until you say so.</p>
+<button class="button lime" id="desk-toggle" aria-pressed="false">Start demo checks <span>↗</span></button>
+</div>
+<div class="controls">
+<label for="desk-data-cap" class="micro">DAILY DATA CAP <output id="desk-cap-output" for="desk-data-cap">100 MB</output></label>
+<input id="desk-data-cap" type="range" min="25" max="250" step="25" value="100">
+<div class="range-labels micro"><span>25 MB</span><span>250 MB</span></div>
+<p class="control-note">Only selected destinations. No arbitrary browsing or unrestricted proxy access.</p>
+</div>
+</div>
+</section>
+<section class="desk-screen" id="desk-destinations" data-screen="destinations" hidden>
+<span class="micro">APPROVED DESTINATIONS</span>
+<h3 class="desk-title">A LIST. NOT A BLANK CHECK.</h3>
+<fieldset>
+<legend class="micro">PUBLIC HOMEPAGES ONLY</legend>
+<label>
+<input type="checkbox" data-desk-destination="example.com" checked>
+<span>example.com <small>Public homepage</small></span>
+<span class="micro">HTTPS</span>
+</label>
+<label>
+<input type="checkbox" data-desk-destination="example.org" checked>
+<span>example.org <small>Public homepage</small></span>
+<span class="micro">HTTPS</span>
+</label>
+</fieldset>
+<p class="control-note">All other destinations stay not permitted. These example domains are reserved for documentation.</p>
+</section>
+<section class="desk-screen" id="desk-history" data-screen="history" hidden>
+<span class="micro">CHECK HISTORY / SAMPLE DATA</span>
+<h3 class="desk-title">RECEIPTS. ACTUAL RECEIPTS.</h3>
+<p class="muted" id="desk-history-empty">No demo checks yet. Start the status screen to generate illustrative rows. They are not live activity or accepted work.</p>
+<div class="table-scroll">
+<table>
+<caption class="micro">ILLUSTRATIVE CHECKS</caption>
+<thead>
+<tr>
+<th scope="col">DESTINATION</th>
+<th scope="col">RESULT</th>
+<th scope="col">REVIEW</th>
+</tr>
+</thead>
+<tbody id="desk-history-body"></tbody>
+</table>
+</div>
+</section>
+<section class="desk-screen" id="desk-payouts" data-screen="payouts" hidden>
+<span class="micro">PAYOUT HISTORY / DEMO</span>
+<h3 class="desk-title">NO WORK. NO MADE-UP BALANCE.</h3>
+<div class="empty" id="desk-payout-empty">NO PAYOUT RECORDS YET.</div>
+<p>Accepted work may be paid in $AFK through Robinhood Chain. Payout records and withdrawals belong here once an integration is available.</p>
+<div class="screen-row"><span>Wallet</span><span>Not connected</span></div>
+<div class="screen-row"><span>Withdrawals</span><span>Not available in demo</span></div>
+<p class="muted">Rates, fees, eligibility, and supported withdrawals will be disclosed before the pilot. AFKMAXX is independent of Robinhood.</p>
+</section>
+<section class="desk-screen" id="desk-token" data-screen="token" hidden>
+<span class="micro">$AFK BAG / NOT LIVE</span>
+<h3 class="desk-title">MEMECOIN WITH A DAY JOB.</h3>
+<div class="token-stat">
+<span class="micro">ILLUSTRATIVE BAG</span>
+<strong id="desk-bag">0 $AFK</strong>
+<span class="micro" id="desk-bag-note">DEMO CREDIT / NOT SETTLED</span>
+</div>
+<div class="screen-row"><span>Intended market</span><b>Robinhood</b></div>
+<div class="screen-row"><span>Intended record layer</span><b>Robinhood Chain</b></div>
+<div class="screen-row"><span>Stake</span><span>Not available in demo</span></div>
+<div class="screen-row"><span>Buy / sell on this page</span><span>No</span></div>
+<p class="control-note">Running the demo may queue an illustrative credit. Nothing is purchased, earned, or withdrawable. Token price is not shown because there is no live market here.</p>
+</section>
+</div>
+</div>
+</div>
+</main>
+<footer class="wrap">
+<a class="brand" href="index.html"><img src="assets/mark.svg" alt="" width="26" height="25">AFKMAXX</a>
+<span class="micro">DESKTOP DEMO / NO NETWORK ACTIVITY</span>
+<a href="mobile.html">Mobile demo ↗</a>
+<span class="micro">© 2026 AFKMAXX</span>
+</footer>
+</body>
+</html>
