@@ -8,9 +8,10 @@ dist
 dist-extension
 dist-extension.zip
 desktop/macos/DerivedData
+desktop/macos/Vendor/BrightSDK/**
+!desktop/macos/Vendor/BrightSDK/README.md
+desktop/macos/BrightSDK/
 desktop/windows/**/bin
 desktop/windows/**/obj
-desktop/macos/Vendor/BrightSDK/*.framework
-desktop/macos/Vendor/BrightSDK/*.app
 *.log
 .DS_Store

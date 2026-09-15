@@ -28,6 +28,7 @@ model User {
   results       CheckResult[]
   tokens        DeviceToken[]
   ledger        LedgerEntry[]
+  desktopLinks  DesktopLink[]
 }
 
 model Account {
@@ -99,8 +100,9 @@ model CheckResult {
   statusCode    Int
   bytes         Int
   ms            Int
-  fetchedAt     DateTime @default(now())
-  review        String   @default("unaudited")
+  fetchedAt        DateTime @default(now())
+  review           String   @default("unaudited")
+  potentialPoints  Int      @default(0)
 }
 
 model DeviceToken {
@@ -110,6 +112,17 @@ model DeviceToken {
   hash      String   @unique
   lastSeen  DateTime @default(now())
   createdAt DateTime @default(now())
+}
+
+model DesktopLink {
+  id        String    @id @default(cuid())
+  ticket    String    @unique
+  userId    String?
+  user      User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenOnce String?
+  expiresAt DateTime
+  claimedAt DateTime?
+  createdAt DateTime  @default(now())
 }
 
 model LedgerEntry {

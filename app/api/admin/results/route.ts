@@ -27,11 +27,12 @@ export async function PATCH(req: Request) {
   if (!existing) return NextResponse.json({ error: 'Not found' }, { status: 404 });
   const result = await prisma.checkResult.update({ where: { id }, data: { review } });
   if (review === 'accepted' && existing.review !== 'accepted') {
+    const points = existing.potentialPoints || 0;
     await prisma.ledgerEntry.create({
       data: {
         userId: existing.participantId,
-        delta: 0,
-        reason: 'placeholder_only'
+        delta: points,
+        reason: 'potential_accepted'
       }
     });
     await prisma.job.update({ where: { id: existing.jobId }, data: { status: 'done' } });

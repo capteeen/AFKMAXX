@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { userFromDeviceToken, rateLimit, clientKey, hostnameOf } from '@/lib/guard';
+import { potentialPoints } from '@/lib/earnings';
 
 export async function POST(req: Request) {
   const user = await userFromDeviceToken(req.headers.get('authorization'));
@@ -30,14 +31,16 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Invalid status' }, { status: 400 });
   }
   const failed = body.failed === true || statusCode === 0;
+  const code = failed ? 0 : statusCode;
   const result = await prisma.checkResult.create({
     data: {
       jobId: job.id,
       participantId: user.id,
-      statusCode: failed ? 0 : statusCode,
+      statusCode: code,
       bytes,
       ms,
-      review: 'unaudited'
+      review: 'unaudited',
+      potentialPoints: potentialPoints(code, bytes)
     }
   });
   await prisma.job.update({

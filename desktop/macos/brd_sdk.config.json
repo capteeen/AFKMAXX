@@ -1,0 +1,10 @@
+{
+  "workdir": ".",
+  "app_dir": null,
+  "libs_dir": "Vendor/BrightSDK",
+  "sdk_service_dir": "Vendor/BrightSDK",
+  "sdk_ver": "latest",
+  "sdk_ver_prev": "1.665.860",
+  "sdk_url": null,
+  "xcodeproj_dir": "AFKMAXX.xcodeproj"
+}

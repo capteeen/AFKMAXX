@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { SignOutButton } from '@clerk/nextjs';
 import { AfkCoin } from '@/components/afk-coin';
 import { DashChart } from '@/components/dash-chart';
+import { pointsToAfk, recordedPoints, summarizeEarnings } from '@/lib/earnings';
 
 type Result = {
   id: string;
@@ -13,6 +14,7 @@ type Result = {
   ms: number;
   review: string;
   fetchedAt: string;
+  potentialPoints?: number;
   job: { destination: { hostname: string } };
 };
 
@@ -34,6 +36,17 @@ type Me = {
   entries: Entry[];
   bag: number;
   usedBytes: number;
+  earnings?: {
+    pendingAfk: number;
+    acceptedAfk: number;
+    voidedAfk: number;
+    potentialAfk: number;
+    okChecks: number;
+    nextMilestone: number | null;
+    milestoneFrom: number;
+    ratePerCheck: number;
+    ratePerMb: number;
+  };
 };
 
 const SOURCE = 'afkmaxx-page';
@@ -41,6 +54,7 @@ const REPLY = 'afkmaxx-extension';
 
 type Screen =
   | 'overview'
+  | 'progress'
   | 'statistics'
   | 'history'
   | 'referrals'
@@ -53,6 +67,7 @@ type StatKey = 'gathering' | 'sites' | 'referrals' | 'accepted' | 'loyalty';
 
 const NAV: { id: Screen; label: string }[] = [
   { id: 'overview', label: 'Overview' },
+  { id: 'progress', label: 'Progress' },
   { id: 'statistics', label: 'Statistics' },
   { id: 'history', label: 'History' },
   { id: 'referrals', label: 'Referrals' },
@@ -121,6 +136,7 @@ function previewMe(): Me {
       ms: 140 + i * 12,
       review: i % 3 === 0 ? 'accepted' : 'unaudited',
       fetchedAt: fetchedAt.toISOString(),
+      potentialPoints: 25,
       job: { destination: { hostname: i % 2 ? 'example.org' : 'example.com' } }
     };
   });
@@ -137,9 +153,10 @@ function previewMe(): Me {
     destinations: [{ id: 'd1', hostname: 'example.com', status: 'approved' }],
     results,
     jobs: [{ id: 'j1', status: 'queued', regionLabel: 'Sample region A', createdAt: now.toISOString(), destination: { hostname: 'example.com' } }],
-    entries: [{ id: 'e1', delta: 0, reason: 'placeholder_only', createdAt: now.toISOString() }],
-    bag: 0,
-    usedBytes: 48000
+    entries: [{ id: 'e1', delta: 25, reason: 'potential_accepted', createdAt: now.toISOString() }],
+    bag: 0.5,
+    usedBytes: 48000,
+    earnings: summarizeEarnings(results)
   };
 }
 
@@ -194,7 +211,8 @@ export function AppConsole({ preview = false }: { preview?: boolean } = {}) {
         jobs: data.jobs || [],
         entries: data.entries || [],
         bag: data.bag || 0,
-        usedBytes: data.usedBytes || 0
+        usedBytes: data.usedBytes || 0,
+        earnings: data.earnings
       });
       setConsent(Boolean(data.user.consentAt));
       setCap(data.user.dailyCapMb);
@@ -354,7 +372,6 @@ export function AppConsole({ preview = false }: { preview?: boolean } = {}) {
     };
   }, [me, range]);
 
-  const streakLeft = Math.max(0, 7 - stats.streakDays);
   const referralCode = me ? me.user.id.slice(0, 8).toUpperCase() : 'AFKMAXX';
   const referralLink = origin ? `${origin}/login?ref=${referralCode}` : `/login?ref=${referralCode}`;
 
@@ -367,8 +384,12 @@ export function AppConsole({ preview = false }: { preview?: boolean } = {}) {
   }
 
   const usedMb = (me.usedBytes / (1024 * 1024)).toFixed(2);
-  const bagValue = wallet === 'checks' ? me.bag : stats.sites;
-  const pendingValue = wallet === 'checks' ? stats.pending : me.jobs.filter(j => j.status === 'queued').length;
+  const earn = me.earnings || summarizeEarnings(me.results);
+  const bagValue = wallet === 'checks' ? earn.potentialAfk : stats.sites;
+  const pendingValue = wallet === 'checks' ? earn.pendingAfk : me.jobs.filter(j => j.status === 'queued').length;
+  const milestonePct = earn.nextMilestone
+    ? ((earn.okChecks - earn.milestoneFrom) / (earn.nextMilestone - earn.milestoneFrom)) * 100
+    : 100;
   const chartPoints =
     stat === 'gathering' ? stats.gatheringDays
     : stat === 'sites' ? stats.sitesDays
@@ -461,9 +482,9 @@ export function AppConsole({ preview = false }: { preview?: boolean } = {}) {
               <h1 className="sr-only">Overview</h1>
               <section className="dash-card dash-hero">
                 <div className="dash-hero-content">
-                  <span className="micro">{wallet === 'checks' ? 'YOUR PLACEHOLDER BAG' : 'YOUR SITE JOBS'}</span>
+                  <span className="micro">{wallet === 'checks' ? 'POTENTIAL BAG / DEMO RATE' : 'YOUR SITE JOBS'}</span>
                   <div className="dash-balance"><strong>{wallet === 'checks' ? formatBag(bagValue) : pendingValue}</strong><span>{wallet === 'checks' ? '$AFK' : 'QUEUED'}</span></div>
-                  <p className="dash-hero-truth">{wallet === 'checks' ? 'Not withdrawable. Robinhood Chain is intended, not live.' : 'Approved HTTPS hosts only. A list. Not a blank check.'}</p>
+                  <p className="dash-hero-truth">{wallet === 'checks' ? `${formatBag(earn.pendingAfk)} pending review · ${formatBag(earn.acceptedAfk)} accepted. Rate ${formatBag(earn.ratePerCheck)} per ok check. Not withdrawable.` : 'Approved HTTPS hosts only. A list. Not a blank check.'}</p>
                   <div className="dash-hero-status"><span className={`dash-status-dot ${running ? 'is-live' : ''}`} />{running ? 'CHECKS RUNNING' : 'CHECKS PAUSED'} <span className="dash-hero-divider">/</span> {ext || preview ? 'EXTENSION READY' : 'EXTENSION NOT CONNECTED'}</div>
                   <button className="button lime dash-primary-action" type="button" disabled={busy || (!ext && !preview) || me.user.status === 'banned'} aria-pressed={running} onClick={toggle}>
                     {running ? 'Pause checks' : 'Start checks'} <span>{running ? 'Ⅱ' : '↗'}</span>
@@ -475,17 +496,17 @@ export function AppConsole({ preview = false }: { preview?: boolean } = {}) {
 
               <aside className="dash-stack">
                 <section className="dash-card dash-pot">
-                  <span className="micro">STREAK POT</span>
-                  <h3>{stats.streakDays} day streak.</h3>
-                  <p>Hit an approved check {streakLeft} more {streakLeft === 1 ? 'day' : 'days'} in a row. No bonus is paid yet.</p>
+                  <span className="micro">CHECK MILESTONE</span>
+                  <h3>{earn.okChecks} ok checks.</h3>
+                  <p>{earn.nextMilestone ? `Next stamp at ${earn.nextMilestone} successful GETs.` : 'Top milestone hit. Still not a payout.'}</p>
                   <div className="dash-pot-meta">
-                    <span>7 days</span>
-                    <span>0 $AFK</span>
+                    <span>{earn.milestoneFrom} → {earn.nextMilestone ?? earn.okChecks}</span>
+                    <span>{formatBag(earn.potentialAfk)} $AFK</span>
                   </div>
-                  <div className="dash-meter" aria-label="Streak progress">
-                    <i style={{ width: `${(Math.min(stats.streakDays, 7) / 7) * 100}%` }} />
+                  <div className="dash-meter" aria-label="Check progress">
+                    <i style={{ width: `${Math.min(100, milestonePct)}%` }} />
                   </div>
-                  <span className="micro">{stats.streakDays}/7</span>
+                  <span className="micro">{stats.streakDays} day streak · {usedMb} MB today</span>
                 </section>
               </aside>
 
@@ -558,22 +579,67 @@ export function AppConsole({ preview = false }: { preview?: boolean } = {}) {
             </>
           )}
 
-          {screen === 'history' && (
+          {screen === 'progress' && (
             <>
               <div className="dash-page-head">
-                <h2>Transaction history</h2>
+                <h2>Progress</h2>
+                <span className="micro">{formatBag(earn.potentialAfk)} $AFK POTENTIAL</span>
               </div>
+              <dl className="dash-dl">
+                <div><dt>Pending review</dt><dd>{formatBag(earn.pendingAfk)}</dd></div>
+                <div><dt>Accepted</dt><dd>{formatBag(earn.acceptedAfk)}</dd></div>
+                <div><dt>Voided</dt><dd>{formatBag(earn.voidedAfk)}</dd></div>
+              </dl>
+              <p className="muted" style={{ margin: '12px 0 18px' }}>{formatBag(earn.ratePerCheck)} $AFK per successful check, plus {formatBag(earn.ratePerMb)} per MB. Demo rate until a live listing. Nothing withdraws.</p>
               <section className="dash-card">
-                <p className="muted">Checks and placeholder ledger rows. Nothing here is a withdrawal.</p>
+                <span className="micro">EVERY SHARE ON RECORD</span>
                 <div className="table-scroll dash-history-table">
                   <table>
-                    <thead><tr><th>When</th><th>What</th><th>Detail</th><th>Review</th></tr></thead>
+                    <thead><tr><th>When</th><th>What</th><th>Detail</th><th>Potential</th><th>Status</th></tr></thead>
                     <tbody>
                       {me.results.map(r => (
                         <tr key={r.id}>
                           <td data-label="WHEN">{new Date(r.fetchedAt).toLocaleString()}</td>
                           <td data-label="HOST">{r.job?.destination?.hostname || 'Approved host'}</td>
                           <td data-label="CHECK">{r.statusCode} · {kb(r.bytes)} KB · {r.ms} ms</td>
+                          <td data-label="POTENTIAL">{formatBag(pointsToAfk(recordedPoints(r)))} $AFK</td>
+                          <td data-label="STATUS">{r.review}</td>
+                        </tr>
+                      ))}
+                      {me.jobs.filter(j => j.status === 'queued').map(j => (
+                        <tr key={j.id}>
+                          <td data-label="WHEN">{new Date(j.createdAt).toLocaleString()}</td>
+                          <td data-label="HOST">{j.destination.hostname}</td>
+                          <td data-label="CHECK">{j.regionLabel}</td>
+                          <td data-label="POTENTIAL">—</td>
+                          <td data-label="STATUS">{j.status}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                {!me.results.length && !me.jobs.length ? <p className="dash-empty">NO RECEIPTS YET.</p> : null}
+              </section>
+            </>
+          )}
+
+          {screen === 'history' && (
+            <>
+              <div className="dash-page-head">
+                <h2>Transaction history</h2>
+              </div>
+              <section className="dash-card">
+                <p className="muted">Every check is stored. Potential $AFK uses the demo rate. Accepted rows can credit the bag. Nothing withdraws.</p>
+                <div className="table-scroll dash-history-table">
+                  <table>
+                    <thead><tr><th>When</th><th>What</th><th>Detail</th><th>Potential</th><th>Review</th></tr></thead>
+                    <tbody>
+                      {me.results.map(r => (
+                        <tr key={r.id}>
+                          <td data-label="WHEN">{new Date(r.fetchedAt).toLocaleString()}</td>
+                          <td data-label="HOST">{r.job?.destination?.hostname || 'Approved host'}</td>
+                          <td data-label="CHECK">{r.statusCode} · {kb(r.bytes)} KB · {r.ms} ms</td>
+                          <td data-label="POTENTIAL">{formatBag(pointsToAfk(recordedPoints(r)))}</td>
                           <td data-label="REVIEW">{r.review}</td>
                         </tr>
                       ))}
@@ -581,8 +647,9 @@ export function AppConsole({ preview = false }: { preview?: boolean } = {}) {
                         <tr key={e.id}>
                           <td data-label="WHEN">{new Date(e.createdAt).toLocaleString()}</td>
                           <td data-label="TYPE">$AFK ledger</td>
-                          <td data-label="DELTA">{e.delta} · {e.reason}</td>
-                          <td data-label="STATUS">placeholder</td>
+                          <td data-label="DELTA">{e.reason}</td>
+                          <td data-label="POTENTIAL">{formatBag(pointsToAfk(e.delta))}</td>
+                          <td data-label="STATUS">recorded</td>
                         </tr>
                       ))}
                     </tbody>

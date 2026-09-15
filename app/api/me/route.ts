@@ -1,9 +1,10 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { requireUser, rateLimit, clientKey } from '@/lib/guard';
+import { requireUser, requireUserOrDevice, rateLimit, clientKey } from '@/lib/guard';
+import { pointsToAfk, summarizeEarnings } from '@/lib/earnings';
 
-export async function GET() {
-  const { error, user } = await requireUser();
+export async function GET(req: Request) {
+  const { error, user } = await requireUserOrDevice(req);
   if (error) return error;
   const [destinations, results, jobs, ledger, entries] = await Promise.all([
     prisma.destination.findMany({ where: { ownerUserId: user.id }, orderBy: { createdAt: 'desc' } }),
@@ -42,8 +43,9 @@ export async function GET() {
     results,
     jobs,
     entries,
-    bag: ledger._sum.delta || 0,
-    usedBytes: used._sum.bytes || 0
+    bag: pointsToAfk(ledger._sum.delta || 0),
+    usedBytes: used._sum.bytes || 0,
+    earnings: summarizeEarnings(results)
   });
 }
 

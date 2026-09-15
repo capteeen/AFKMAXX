@@ -32,6 +32,19 @@ export async function requireUser() {
   return { error: null, user };
 }
 
+export async function requireUserOrDevice(req: Request) {
+  const fromCookie = await sessionUser();
+  if (fromCookie) {
+    if (fromCookie.status === 'banned') {
+      return { error: NextResponse.json({ error: 'Account banned' }, { status: 403 }), user: null };
+    }
+    return { error: null, user: fromCookie };
+  }
+  const fromToken = await userFromDeviceToken(req.headers.get('authorization'));
+  if (!fromToken) return { error: NextResponse.json({ error: 'Sign in required' }, { status: 401 }), user: null };
+  return { error: null, user: fromToken };
+}
+
 export async function requireAdmin() {
   const result = await requireUser();
   if (result.error) return result;

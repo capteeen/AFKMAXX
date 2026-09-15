@@ -14,8 +14,11 @@ export function Landing() {
           <div className="hero-copy">
             <h1>YOU GO AFK.<br />IT DOES A<br /><span>SIDE QUEST.</span></h1>
             <p>Let your internet connection run small, approved website checks for paying customers while you’re away.</p>
-            <Link className="button lime" href="/sign-in">Open the app <span>↗</span></Link>
-            <div className="hero-note micro">OPT IN. SET LIMITS. PAUSE ANYTIME.</div>
+            <div className="hero-actions">
+              <Link className="button lime" href="/sign-in">Open the app <span>↗</span></Link>
+              <a className="button outline" href="#desktop">Get desktop <span>↘</span></a>
+            </div>
+            <div className="hero-note micro">MAC + WINDOWS. OPT IN. SET LIMITS. PAUSE ANYTIME.</div>
           </div>
           <div className="hero-art">
             <div className="art-tag micro"><span className="cross">+</span> SOMEWHERE, A CHAIR IS EMPTY.</div>
@@ -120,13 +123,36 @@ export function Landing() {
               <p>Polls jobs, GETs allowlisted HTTPS, posts results. Pause anytime.</p>
               <span className="text-link">Install steps in the app ↗</span>
             </Link>
-            <a className="app-card" href="/privacy">
+            <a className="app-card" href="#desktop">
               <span className="micro">DESKTOP</span>
               <h3>MAC + WINDOWS.</h3>
-              <p>Menu bar pause and Web Indexing. Mac loads Bright SDK when the partner framework is dropped in.</p>
-              <span className="text-link">Privacy and Bright EULA ↗</span>
+              <p>Menu bar pause, Web Indexing, recorded demo shares, potential $AFK. Download v1.0.0 below.</p>
+              <span className="text-link">Download desktop ↘</span>
             </a>
           </div>
+        </div>
+      </section>
+      <section id="desktop" className="section wrap desktop-download">
+        <div className="section-heading">
+          <span className="micro eyebrow">05 / ON YOUR MACHINE</span>
+          <h2>TAKE THE SIDE QUEST<br /><em>OFF THE TAB.</em></h2>
+          <p>Current desktop build is 1.0.0. Mac is a signed-ad-hoc demo app. Windows is the source project until a Windows box publishes an exe.</p>
+        </div>
+        <div className="download-grid">
+          <article className="download-card">
+            <span className="micro">MACOS 13+</span>
+            <h3>AFKMAXX FOR MAC</h3>
+            <p>Menu bar + window. Demo indexing records potential $AFK on this Mac. Bright SDK is not live in this zip.</p>
+            <a className="button lime" href="/downloads/AFKMAXX-1.0.0-mac.zip" download>Download Mac v1.0.0 <span>↘</span></a>
+            <p className="control-note">Unsigned demo. In Finder: open the zip, right-click AFKMAXX, Open, then Open again.</p>
+          </article>
+          <article className="download-card">
+            <span className="micro">WINDOWS 10+</span>
+            <h3>AFKMAXX FOR WINDOWS</h3>
+            <p>WPF companion with the same Web Indexing controls. Unzip and run with .NET 8 SDK.</p>
+            <a className="button outline" href="/downloads/AFKMAXX-1.0.0-windows.zip" download>Download Windows v1.0.0 <span>↘</span></a>
+            <p className="control-note">In the unzipped folder: <code>dotnet run -c Release</code></p>
+          </article>
         </div>
       </section>
       <section id="pilot" className="pilot">
@@ -134,10 +160,10 @@ export function Landing() {
           <span className="micro">A SMALL SIDE QUEST. ON YOUR TERMS.</span>
           <h2>GO LIVE YOUR LIFE.<br />WE’LL CHECK <span>BACK.</span></h2>
           <div className="pilot-bottom">
-            <p>Sign in to open the app. No wallet. No token sale. The extension does the fetch.</p>
+            <p>Sign in for the web desk. Download Mac or Windows for the desktop demo. No wallet. No token sale.</p>
             <div className="pilot-actions">
               <Link className="button dark" href="/sign-in">Sign in <span>↗</span></Link>
-              <Link className="button outline" href="/privacy">Privacy <span>↗</span></Link>
+              <a className="button outline" href="#desktop">Download desktop <span>↘</span></a>
             </div>
           </div>
         </div>

@@ -39,13 +39,12 @@
 .token-uses h3{font-family:var(--display);font-size:26px;text-transform:uppercase;margin:12px 0 10px}
 .token-uses p{font-size:13px;color:var(--muted);max-width:280px}
 .apps-section{background:#121519;border-block:1px solid var(--line)}
-.apps-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.apps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px}
 .app-card{display:block;border:1px solid var(--line);padding:36px;background:var(--ink);min-height:100%}
 .app-card h3{font-family:var(--display);font-size:42px;line-height:.92;text-transform:uppercase;margin:22px 0 14px}
 .app-card p{color:var(--muted);font-size:14px;max-width:360px}
 .app-card:hover{border-color:var(--mint)}
 .app-card .text-link{margin-top:28px}
-.pilot-actions{display:flex;flex-wrap:wrap;gap:12px}
 .pilot .outline{border-color:var(--ink);color:var(--ink)}
 .desktop-page,.mobile-page{padding-block:48px 80px}
 .desk-shell{border:1px solid #444842;border-radius:8px;overflow:hidden;background:var(--ink)}
@@ -98,7 +97,16 @@
   .desk-nav{flex-direction:row;flex-wrap:wrap;border-right:0;border-bottom:1px solid var(--line)}
   footer{flex-wrap:wrap}
 }
-.apps-grid{grid-template-columns:repeat(3,1fr)}
+.hero-copy>.hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin:26px 0 0}
+.hero-copy>.hero-actions+.hero-note{margin-top:17px}
+.download-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.download-card{border:1px solid var(--line);padding:36px;background:var(--ink)}
+.download-card h3{font-family:var(--display);font-size:42px;line-height:.92;text-transform:uppercase;margin:22px 0 14px}
+.download-card p{color:var(--muted);font-size:14px;max-width:420px}
+.download-card .button{margin-top:24px}
+.download-card .control-note{margin-top:16px}
+.download-card code{color:var(--mint);font-family:var(--mono);font-size:12px}
+@media(max-width:700px){.download-grid{grid-template-columns:1fr}}
 @media(max-width:1000px){.apps-grid{grid-template-columns:1fr 1fr}}
 .ext-banner{border:1px solid var(--line);padding:14px 18px;margin-bottom:18px;font:12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 .ext-banner.ok{border-color:var(--mint);color:var(--mint)}
@@ -452,3 +460,99 @@
 .cl-userButtonBox{min-height:32px}
 .clerk-auth-page{display:flex;flex-direction:column;align-items:flex-start;gap:28px;padding-bottom:96px}
 .clerk-auth-page .cl-rootBox,.clerk-auth-page .cl-cardBox{width:min(420px,100%)}
+
+/* Signed-in app: iOS liquid glass on a desktop canvas. */
+.dash,.dash-boot{
+  --glass:rgba(17,21,25,.52);
+  --glass-strong:rgba(12,16,20,.68);
+  --glass-line:rgba(255,255,255,.16);
+  --glass-shine:inset 0 1px 0 rgba(255,255,255,.22);
+  --glass-ease:cubic-bezier(.32,.72,0,1);
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  background:
+    radial-gradient(42% 50% at 8% 0%,#c8ff3d2b,transparent 58%),
+    radial-gradient(48% 56% at 96% 100%,#5876ff33,transparent 62%),
+    radial-gradient(28% 32% at 72% 12%,#ffffff12,transparent 70%),
+    #0b0d12;
+}
+.dash:before,.dash-boot:before{
+  content:'';
+  position:absolute;
+  inset:-18%;
+  z-index:0;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 18% 22%,#c8ff3d2a,transparent 34%),
+    radial-gradient(circle at 82% 74%,#5876ff2c,transparent 38%),
+    radial-gradient(circle at 54% 48%,#ffffff10,transparent 28%);
+  animation:dash-fluid 16s var(--glass-ease) infinite alternate;
+}
+.dash-side,.dash-main,.dash-top,.dash-body,.dash-boot>p{position:relative;z-index:1}
+.dash-side{
+  background:var(--glass-strong);
+  backdrop-filter:blur(32px) saturate(170%);
+  -webkit-backdrop-filter:blur(32px) saturate(170%);
+  border-right:1px solid var(--glass-line);
+  box-shadow:var(--glass-shine);
+}
+.dash-nav button,.dash-nav a{border-radius:14px;transition:background .18s var(--glass-ease),color .18s var(--glass-ease),transform .16s var(--glass-ease)}
+.dash-nav button:active,.dash-nav a:active{transform:scale(.97)}
+.dash-nav button.is-active{
+  background:rgba(255,255,255,.12);
+  color:var(--paper);
+  outline:1px solid var(--glass-line);
+}
+.dash-top{
+  background:rgba(16,19,23,.55);
+  backdrop-filter:blur(26px) saturate(160%);
+  -webkit-backdrop-filter:blur(26px) saturate(160%);
+  border-bottom:1px solid var(--glass-line);
+}
+.dash-switch{
+  border:1px solid var(--glass-line);
+  background:rgba(255,255,255,.06);
+  border-radius:999px;
+  backdrop-filter:blur(16px);
+}
+.dash-switch button{border-radius:999px}
+.dash-switch button.is-on{background:var(--paper);color:var(--ink)}
+.dash-pill,.dash-copy,.dash-stat-tabs{border-radius:999px;border-color:var(--glass-line);background:rgba(255,255,255,.05);backdrop-filter:blur(16px)}
+.dash-stat-tabs{border-radius:20px;overflow:hidden}
+.dash-card,.ext-banner{
+  background:var(--glass);
+  backdrop-filter:blur(24px) saturate(165%);
+  -webkit-backdrop-filter:blur(24px) saturate(165%);
+  border:1px solid var(--glass-line);
+  border-radius:22px;
+  box-shadow:0 18px 48px #0004,var(--glass-shine);
+}
+.dash-hero{
+  background:
+    linear-gradient(120deg,rgba(200,255,61,.14),rgba(17,21,25,.28) 46%,rgba(88,118,255,.12)),
+    var(--glass);
+  border-radius:24px;
+}
+.dash-hero:before{opacity:.25}
+.dash-pot,.dash-boost,.dash-ref{background:var(--glass)}
+.dash-boost{border-color:rgba(88,118,255,.35)}
+.dash .button{border-radius:16px;transition:transform .16s var(--glass-ease),background .16s}
+.dash .button:hover{transform:translateY(-2px) scale(1.01)}
+.dash .button:active{transform:scale(.97)}
+.dash-copy{border-radius:16px;overflow:hidden;border-color:var(--glass-line);background:rgba(255,255,255,.05)}
+.dash-pills button{border-radius:999px;border-color:var(--glass-line);background:rgba(255,255,255,.05)}
+.dash-pills button.is-on{background:rgba(255,255,255,.14);color:var(--paper);border-color:var(--glass-line)}
+.dash-meter{height:8px;border-radius:999px;background:rgba(255,255,255,.1);overflow:hidden}
+.dash-meter i{border-radius:999px;box-shadow:0 0 12px #c8ff3d88}
+.dash-achieves .dash-card{border-radius:22px}
+.dash-achieves .is-done{background:rgba(200,255,61,.08);border-color:rgba(200,255,61,.45)}
+@keyframes dash-fluid{
+  from{transform:translate3d(-2%,-1%,0) scale(1)}
+  to{transform:translate3d(3%,2%,0) scale(1.07)}
+}
+@media(prefers-reduced-motion:reduce){
+  .dash:before,.dash-boot:before{animation:none}
+  .dash .button:hover,.dash .button:active,.dash-nav button:active{transform:none}
+}
+

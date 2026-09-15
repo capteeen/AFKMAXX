@@ -12,10 +12,14 @@
 		A10100000000000000000003 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20100000000000000000003 /* Session.swift */; };
 		A10100000000000000000004 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20100000000000000000004 /* Theme.swift */; };
 		A10100000000000000000005 /* BrightSDKClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20100000000000000000005 /* BrightSDKClient.swift */; };
+		A1010000000000000000000A /* DemoLedger.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2010000000000000000000C /* DemoLedger.swift */; };
 		A10100000000000000000006 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A20100000000000000000006 /* Assets.xcassets */; };
 		A10100000000000000000007 /* Display.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A20100000000000000000007 /* Display.ttf */; };
 		A10100000000000000000008 /* Body.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A20100000000000000000008 /* Body.ttf */; };
 		A10100000000000000000009 /* Mono.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A20100000000000000000009 /* Mono.ttf */; };
+		55C119053A6641CDA2D159AD /* brdsdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0CFFD52C4174A4E9D2BDE11 /* brdsdk.framework */; platformFilters = (macos, ); };
+		8929DD952A304909963333FE /* brdsdk.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C0CFFD52C4174A4E9D2BDE11 /* brdsdk.framework */; platformFilters = (macos, ); };
+		ADFA0FE06F5A42B19B60E790 /* net_updater.app in Resources */ = {isa = PBXBuildFile; fileRef = 3DF434CDB3624864AC85BCF4 /* net_updater.app */; platformFilters = (macos, ); };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +28,7 @@
 		A20100000000000000000003 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		A20100000000000000000004 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		A20100000000000000000005 /* BrightSDKClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrightSDKClient.swift; sourceTree = "<group>"; };
+		A2010000000000000000000C /* DemoLedger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoLedger.swift; sourceTree = "<group>"; };
 		A20100000000000000000006 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A20100000000000000000007 /* Display.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Display.ttf; sourceTree = "<group>"; };
 		A20100000000000000000008 /* Body.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Body.ttf; sourceTree = "<group>"; };
@@ -31,6 +36,8 @@
 		A2010000000000000000000A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A2010000000000000000000B /* AFKMAXX.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AFKMAXX.entitlements; sourceTree = "<group>"; };
 		A30100000000000000000001 /* AFKMAXX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AFKMAXX.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C0CFFD52C4174A4E9D2BDE11 /* brdsdk.framework */ = {isa = PBXFileReference; name = "brdsdk.framework"; path = "Vendor/BrightSDK/brdsdk.framework"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
+		3DF434CDB3624864AC85BCF4 /* net_updater.app */ = {isa = PBXFileReference; name = "net_updater.app"; path = "Vendor/BrightSDK/net_updater.app"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.application; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,6 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				55C119053A6641CDA2D159AD /* brdsdk.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -60,6 +68,7 @@
 				A20100000000000000000003 /* Session.swift */,
 				A20100000000000000000004 /* Theme.swift */,
 				A20100000000000000000005 /* BrightSDKClient.swift */,
+				A2010000000000000000000C /* DemoLedger.swift */,
 				A20100000000000000000006 /* Assets.xcassets */,
 				A2010000000000000000000A /* Info.plist */,
 				A2010000000000000000000B /* AFKMAXX.entitlements */,
@@ -86,6 +95,15 @@
 			path = Fonts;
 			sourceTree = "<group>";
 		};
+		D296722365B24F1DAA346F56 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C0CFFD52C4174A4E9D2BDE11 /* brdsdk.framework */,
+			);
+			name = Frameworks;
+			path = undefined;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -96,6 +114,9 @@
 				A70100000000000000000001 /* Sources */,
 				A40100000000000000000001 /* Frameworks */,
 				A70100000000000000000002 /* Resources */,
+				A70100000000000000000003 /* Embed Bright SDK */,
+				52794555551E4A23B45A2C7A /* Copy net_updater.app */,
+				EB5B87E69614457582845077 /* Resign net_updater.app */,
 			);
 			buildRules = (
 			);
@@ -153,6 +174,44 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		A70100000000000000000003 /* Embed Bright SDK */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Bright SDK";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PROJECT_DIR}/scripts/embed-bright-sdk.sh\"\n";
+		};
+		EB5B87E69614457582845077 /* Resign net_updater.app */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			name = "Resign net_updater.app";
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			shellPath = /bin/sh;
+			shellScript = "if [ \"$PLATFORM_NAME\" = \"macosx\" ]; then \
+  sh \"$SRCROOT/resign_net_updater.sh\" \
+fi";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		A70100000000000000000001 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -163,6 +222,7 @@
 				A10100000000000000000003 /* Session.swift in Sources */,
 				A10100000000000000000004 /* Theme.swift in Sources */,
 				A10100000000000000000005 /* BrightSDKClient.swift in Sources */,
+				A1010000000000000000000A /* DemoLedger.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -182,6 +242,10 @@
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				FRAMEWORK_SEARCH_PATHS = ("$(inherited)", "Vendor/BrightSDK");
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				NET_UPDATER_ENTITLEMENTS = Vendor/BrightSDK/net_updater.entitlements;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 			};
 			name = Debug;
 		};
@@ -195,6 +259,10 @@
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				FRAMEWORK_SEARCH_PATHS = ("$(inherited)", "Vendor/BrightSDK");
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				NET_UPDATER_ENTITLEMENTS = Vendor/BrightSDK/net_updater.entitlements;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 			};
 			name = Release;
 		};
@@ -208,16 +276,16 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				FRAMEWORK_SEARCH_PATHS = ("$(inherited)", "Vendor/BrightSDK");
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = AFKMAXX/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2026 AFKMAXX";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.0.0;
+				NET_UPDATER_ENTITLEMENTS = Vendor/BrightSDK/net_updater.entitlements;
 				PRODUCT_BUNDLE_IDENTIFIER = com.afkmaxx.desktop;
 				PRODUCT_NAME = AFKMAXX;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -235,16 +303,16 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				FRAMEWORK_SEARCH_PATHS = ("$(inherited)", "Vendor/BrightSDK");
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = AFKMAXX/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2026 AFKMAXX";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.0.0;
+				NET_UPDATER_ENTITLEMENTS = Vendor/BrightSDK/net_updater.entitlements;
 				PRODUCT_BUNDLE_IDENTIFIER = com.afkmaxx.desktop;
 				PRODUCT_NAME = AFKMAXX;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -274,6 +342,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		52794555551E4A23B45A2C7A /* Copy net_updater.app */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ADFA0FE06F5A42B19B60E790 /* net_updater.app in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			name = "Copy net_updater.app";
+			dstPath = Contents/Library/LoginItems;
+			dstSubfolderSpec = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
 	};
 	rootObject = A90100000000000000000001 /* Project object */;
 }

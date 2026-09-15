@@ -8,6 +8,7 @@
     "start": "next start -H localhost -p 4173",
     "check": "prisma validate && tsc --noEmit",
     "extension:pack": "node scripts/pack-extension.mjs",
+    "desktop:pack": "node scripts/pack-desktop.mjs",
     "db:migrate": "prisma migrate dev",
     "db:push": "prisma db push",
     "postinstall": "prisma generate"

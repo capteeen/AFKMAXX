@@ -17,6 +17,7 @@ export async function SiteHeader({ current }: { current?: 'home' | 'app' | 'admi
       <nav aria-label="Main navigation">
         <Link href="/#how">How it works</Link>
         <Link href="/#token">$AFK</Link>
+        <Link href="/#desktop">Desktop</Link>
         <Link href="/app">App</Link>
         {user?.role === 'admin' ? <Link href="/admin">Admin</Link> : null}
         <Link href="/privacy">Privacy</Link>
@@ -25,6 +26,7 @@ export async function SiteHeader({ current }: { current?: 'home' | 'app' | 'admi
         <summary>Menu</summary>
         <Link href="/#how">How it works</Link>
         <Link href="/#token">$AFK</Link>
+        <Link href="/#desktop">Desktop</Link>
         <Link href="/app">App</Link>
         <Link href="/privacy">Privacy</Link>
         <Link href="/specimens">Specimens</Link>
