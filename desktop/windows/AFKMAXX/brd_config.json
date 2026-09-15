@@ -1,0 +1,9 @@
+{
+  "app_id": "REPLACE_WITH_BRIGHT_APPID",
+  "app_name": "AFKMAXX",
+  "logo_link": "https://raw.githubusercontent.com/capteeen/AFKMAXX/main/public/assets/mark.svg",
+  "benefit": "keep AFKMAXX desktop checks available",
+  "opt_out_txt": "Turn off Web Indexing anytime in AFKMAXX settings.",
+  "agree_btn": "Enable Web Indexing",
+  "disagree_btn": "Not now"
+}

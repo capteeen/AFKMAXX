@@ -1,6 +1,6 @@
 # AFKMAXX
 
-Production web app (Next.js) plus a browser extension that performs allowlisted HTTPS checks from the user’s machine. `$AFK` is a placeholder ledger only. There is no token sale, wallet connect, or Robinhood listing.
+Production web app (Next.js), a browser extension for allowlisted HTTPS checks, and desktop apps under `desktop/` (Mac hosts Bright SDK when their framework is present). `$AFK` is a placeholder ledger only. There is no token sale, wallet connect, or Robinhood listing.
 
 Auth is **Supabase email + password**. App data (jobs, results, ledger) stays in Prisma.
 
@@ -25,6 +25,7 @@ Open http://127.0.0.1:4173 (not `localhost`, so cookies match `AUTH_URL`).
 - Set `ADMIN_EMAIL` in `.env` to that address to get `/admin`.
 - Load `extension/` unpacked (Chrome) or as a temporary add-on (Firefox). For a public install, pack a zip with `npm run extension:pack` and upload it to the Chrome Web Store (steps below).
 - In the app: consent, Extension → Issue device token, Request → queue `https://example.com`, Status → Start.
+- Mac desktop: see `desktop/README.md`. Bright SDK binaries are partner-only; the app runs without them.
 
 `example.com` and `example.org` auto-approve. Other hosts stay pending until an admin approves them. Ownership is declared, not proven.
 

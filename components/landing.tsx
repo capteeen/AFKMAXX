@@ -120,6 +120,12 @@ export function Landing() {
               <p>Polls jobs, GETs allowlisted HTTPS, posts results. Pause anytime.</p>
               <span className="text-link">Install steps in the app ↗</span>
             </Link>
+            <a className="app-card" href="/privacy">
+              <span className="micro">DESKTOP</span>
+              <h3>MAC + WINDOWS.</h3>
+              <p>Menu bar pause and Web Indexing. Mac loads Bright SDK when the partner framework is dropped in.</p>
+              <span className="text-link">Privacy and Bright EULA ↗</span>
+            </a>
           </div>
         </div>
       </section>
