@@ -2,6 +2,7 @@ import { ClerkProvider } from '@clerk/nextjs';
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import { clerkAppearance } from '@/lib/clerk-appearance';
+import { clerkPublishableKey } from '@/lib/clerk-env';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -11,13 +12,23 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
+  const publishableKey = clerkPublishableKey();
+  const inner = (
+    <>
+      <a className="skip" href="#main">Skip to content</a>
+      {children}
+    </>
+  );
   return (
     <html lang="en">
       <body>
-        <ClerkProvider appearance={clerkAppearance} dynamic>
-          <a className="skip" href="#main">Skip to content</a>
-          {children}
-        </ClerkProvider>
+        {publishableKey ? (
+          <ClerkProvider appearance={clerkAppearance} dynamic publishableKey={publishableKey}>
+            {inner}
+          </ClerkProvider>
+        ) : (
+          inner
+        )}
       </body>
     </html>
   );

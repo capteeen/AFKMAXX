@@ -1,6 +1,6 @@
 import { SignIn } from '@clerk/nextjs';
 import { SiteHeader } from '@/components/site-header';
-import { safeRedirectPath } from '@/lib/desktop-link';
+import { safeRedirectPath } from '@/lib/safe-redirect';
 
 export default async function SignInPage({
   searchParams

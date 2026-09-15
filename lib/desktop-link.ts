@@ -2,6 +2,8 @@ import { randomBytes } from 'crypto';
 import { prisma } from '@/lib/prisma';
 import { hashToken } from '@/lib/guard';
 
+export { safeRedirectPath } from '@/lib/safe-redirect';
+
 export function newDesktopTicket() {
   return randomBytes(24).toString('hex');
 }
@@ -48,10 +50,4 @@ export async function takeDesktopToken(ticket: string) {
     token,
     user: { id: row.user.id, email: row.user.email }
   };
-}
-
-export function safeRedirectPath(value?: string | string[]) {
-  const raw = Array.isArray(value) ? value[0] : value;
-  if (!raw || !raw.startsWith('/') || raw.startsWith('//')) return '/app';
-  return raw;
 }
