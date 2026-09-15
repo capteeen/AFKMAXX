@@ -1,6 +1,6 @@
-import type { ClerkProviderProps } from '@clerk/nextjs';
+import type { NextClerkProviderProps } from '@clerk/nextjs/types';
 
-export const clerkAppearance: ClerkProviderProps['appearance'] = {
+export const clerkAppearance: NextClerkProviderProps['appearance'] = {
   variables: {
     colorPrimary: '#c8ff3d',
     colorPrimaryForeground: '#0b0d12',
