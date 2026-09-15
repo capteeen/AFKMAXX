@@ -1,5 +1,6 @@
 import { SignUp } from '@clerk/nextjs';
 import { SiteHeader } from '@/components/site-header';
+import { clerkConfigured } from '@/lib/clerk-env';
 import { safeRedirectPath } from '@/lib/safe-redirect';
 
 export default async function SignUpPage({
@@ -16,9 +17,18 @@ export default async function SignUpPage({
         <div className="section-heading">
           <span className="micro eyebrow">ACCOUNT</span>
           <h2>CREATE ONE.<br />THEN <em>SIGN IN.</em></h2>
-          <p>This is your first AFKMAXX user. Clerk is the same account the desktop app uses.</p>
+          {clerkConfigured() ? (
+            <p>This is your first AFKMAXX user. Clerk is the same account the desktop app uses.</p>
+          ) : (
+            <p>
+              Sign-up is not live on this deploy yet. Add <code>NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY</code> and{' '}
+              <code>CLERK_SECRET_KEY</code> in Vercel, then redeploy.
+            </p>
+          )}
         </div>
-        <SignUp forceRedirectUrl={redirect} fallbackRedirectUrl={redirect} signInForceRedirectUrl={redirect} />
+        {clerkConfigured() ? (
+          <SignUp forceRedirectUrl={redirect} fallbackRedirectUrl={redirect} signInForceRedirectUrl={redirect} />
+        ) : null}
       </main>
     </>
   );
