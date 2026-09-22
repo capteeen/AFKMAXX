@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>AFKMAXX banner</title>
+<style>
+  @font-face { font-family: "Display"; src: url("../public/assets/fonts/display.ttf") format("truetype"); font-weight: 900; }
+  @font-face { font-family: "Mono"; src: url("../public/assets/fonts/mono.ttf") format("truetype"); font-weight: 400; }
+  html, body { margin: 0; width: 1500px; height: 500px; overflow: hidden; background: #0B0D12; }
+  body { position: relative; }
+  .glow {
+    position: absolute;
+    left: 430px;
+    top: 50%;
+    width: 640px;
+    height: 640px;
+    transform: translateY(-52%);
+    background: radial-gradient(circle, rgba(200, 255, 61, 0.07) 0%, rgba(88, 118, 255, 0.04) 42%, transparent 70%);
+  }
+  .lockup {
+    position: absolute;
+    left: 448px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    gap: 36px;
+  }
+  .mark { width: 132px; height: 117px; display: block; flex: none; }
+  .name {
+    font-family: Display, Impact, sans-serif;
+    font-weight: 900;
+    font-size: 108px;
+    line-height: 0.82;
+    letter-spacing: 0.015em;
+    color: #F4F1E8;
+  }
+  .line {
+    margin-top: 18px;
+    font-family: Mono, ui-monospace, monospace;
+    font-size: 18px;
+    line-height: 1;
+    letter-spacing: 0.14em;
+    color: #A7AAA4;
+  }
+</style>
+</head>
+<body>
+  <div class="glow"></div>
+  <div class="lockup">
+    <svg class="mark" viewBox="0 0 54 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect x="2" y="2" width="14" height="44" rx="4" fill="#C8FF3D"/>
+      <path d="M29 10 20 27h7l-3 13 12-19h-8z" fill="#5876FF"/>
+      <rect x="38" y="2" width="14" height="44" rx="4" fill="#C8FF3D"/>
+    </svg>
+    <div>
+      <div class="name">AFKMAXX</div>
+      <div class="line">YOU GO AFK. IT DOES A SIDE QUEST.</div>
+    </div>
+  </div>
+</body>
+</html>
